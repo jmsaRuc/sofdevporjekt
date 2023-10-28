@@ -19,8 +19,7 @@ public class boatshipmentApp {
   public static void main(String[] args) {
     
     System.out.println(Database.isOK());
-    VesselsDAO.insertVessel("titanic", 100, 200, 100, 0);
-    System.out.println(Database.isOK());
+    
   }
 
   

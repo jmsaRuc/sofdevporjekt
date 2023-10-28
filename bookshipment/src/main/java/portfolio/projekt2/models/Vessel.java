@@ -67,7 +67,7 @@ public class Vessel {
     return availableCapacity;
   }
 
-  public int getCityDateWithVid() {
+  public int getCityDateWithVidIndex() {
     return cityDateWithVid.get();
   }
 

@@ -16,7 +16,7 @@ public class VesselsDAO {
   private static final String usedCapacityColumn = "usedCapacity";
   private static final String maxCapacityColumn = "maxCapacity";
   private static final String availableCapacityColumn = "availableCapacity";
-  private static final String cityDateWithVidColum = "cityDateWithVid";
+  private static final String cityDateWithVidIndexColum = "cityDateWithVidIndex";
 
   private static final String vidColumn = "vid";
 
@@ -45,7 +45,7 @@ public class VesselsDAO {
             rs.getInt(usedCapacityColumn),
             rs.getInt(maxCapacityColumn),
             rs.getInt(availableCapacityColumn),
-            rs.getInt(cityDateWithVidColum),
+            rs.getInt(cityDateWithVidIndexColum),
             rs.getInt(vidColumn)
           )
         );
@@ -66,20 +66,20 @@ public class VesselsDAO {
     int usedCapacity,
     int maxCapacity,
     int availableCapacity,
-    int cityDateWithVid
+    int cityDateWithVidIndex
   ) {
     //update database
     int vid = (int) CRUDHelper.create(
       tableName,
       new String[] {
-        "VesselName, UsedCapacity, maxCapacity, AvailableCapacity, CityDateWithVid",
+        "VesselName, UsedCapacity, MaxCapacity, AvailableCapacity, CityDateWithVidIndex",
       },
       new Object[] {
         vesselName,
         usedCapacity,
         maxCapacity,
         availableCapacity,
-        cityDateWithVid,
+        cityDateWithVidIndex,
       },
       new int[] {
         Types.VARCHAR,
@@ -96,7 +96,7 @@ public class VesselsDAO {
         maxCapacity,
         usedCapacity,
         availableCapacity,
-        cityDateWithVid,
+        cityDateWithVidIndex,
         vid
       )
     );
@@ -111,14 +111,14 @@ public class VesselsDAO {
         usedCapacityColumn,
         maxCapacityColumn,
         availableCapacityColumn,
-        cityDateWithVidColum,
+        cityDateWithVidIndexColum,
       },
       new Object[] {
         newVessel.getVesselName(),
         newVessel.getUsedCapacity(),
         newVessel.getMaxCapacity(),
         newVessel.getAvailableCapacity(),
-        newVessel.getCityDateWithVid(),
+        newVessel.getCityDateWithVidIndex(),
       },
       new int[] {
         Types.VARCHAR,

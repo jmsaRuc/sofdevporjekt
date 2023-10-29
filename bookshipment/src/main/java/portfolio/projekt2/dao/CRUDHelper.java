@@ -93,7 +93,7 @@ public class CRUDHelper {
         .getAnonymousLogger()
         .log(
           Level.SEVERE,
-          LocalDateTime.now() + ": Could not add vessel to database"
+          LocalDateTime.now() + ": Could not add to database update"
         );
       return -1;
     }
@@ -105,6 +105,7 @@ public class CRUDHelper {
     Object[] values,
     int[] types
   ) {
+    
     int number = Math.min(
       Math.min(columns.length, values.length),
       types.length
@@ -120,13 +121,14 @@ public class CRUDHelper {
     queryBuilder.append(" VALUES (");
     for (int i = 0; i < number; i++) {
       switch (types[i]) {
-        case Types.VARCHAR:
+        case (Types.VARCHAR):
           queryBuilder.append("'");
           queryBuilder.append((String) values[i]);
           queryBuilder.append("'");
           break;
-        case Types.INTEGER:
-          queryBuilder.append((int) values[i]);
+        case (Types.INTEGER):
+          queryBuilder.append((int)values[i]);
+          break;
       }
       if (i < number - 1) queryBuilder.append(", ");
     }
@@ -134,6 +136,7 @@ public class CRUDHelper {
     try (Connection conn = Database.connect()) {
       PreparedStatement pstmt = conn.prepareStatement(queryBuilder.toString());
       int affectedRows = pstmt.executeUpdate();
+      
       // check the affected rows
       if (affectedRows > 0) {
         // get the ID back
@@ -148,15 +151,17 @@ public class CRUDHelper {
         .getAnonymousLogger()
         .log(
           Level.SEVERE,
-          LocalDateTime.now() + ": Could not add vessel to database2"
+          LocalDateTime.now() + ": Could not add vessel to database (create)"
+          
         );
+        
       return -1;
     }
     return -1;
   }
 
-  public static int delete(String tableName, int id) {
-    String sql = "DELETE FROM " + tableName + " WHERE id = ?";
+  public static int delete(String tableName, int id, String idName) {
+    String sql = "DELETE FROM " + tableName + " WHERE "+ idName +" = ?";
     try (Connection conn = Database.connect()) {
       PreparedStatement pstmt = conn.prepareStatement(sql);
       pstmt.setInt(1, id);
@@ -169,7 +174,7 @@ public class CRUDHelper {
           LocalDateTime.now() +
           ": Could not delete from " +
           tableName +
-          " by id " +
+          " by "+idName+" " +
           id +
           " because " +
           e.getCause()

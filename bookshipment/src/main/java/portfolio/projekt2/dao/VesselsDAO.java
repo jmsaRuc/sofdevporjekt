@@ -16,7 +16,8 @@ public class VesselsDAO {
   private static final String usedCapacityColumn = "usedCapacity";
   private static final String maxCapacityColumn = "maxCapacity";
   private static final String availableCapacityColumn = "availableCapacity";
-  private static final String cityDateWithVidIndexColum = "cityDateWithVidIndex";
+  private static final String cityDateWithVidIndexColum =
+    "cityDateWithVidIndex";
 
   private static final String vidColumn = "vid";
 
@@ -72,7 +73,11 @@ public class VesselsDAO {
     int vid = (int) CRUDHelper.create(
       tableName,
       new String[] {
-        "VesselName, UsedCapacity, MaxCapacity, AvailableCapacity, CityDateWithVidIndex",
+        "vesselName",
+        "usedCapacity",
+        "maxCapacity",
+        "availableCapacity",
+        "cityDateWithVidIndex",
       },
       new Object[] {
         vesselName,
@@ -133,7 +138,7 @@ public class VesselsDAO {
     );
 
     if (rows == 0) throw new IllegalStateException(
-      "Person to be updated with vid " +
+      "Vessel to be updated with vid " +
       newVessel.getVid() +
       " didn't exist in database"
     );
@@ -147,42 +152,29 @@ public class VesselsDAO {
       },
       () -> {
         throw new IllegalStateException(
-          "Person to be updated with vid " +
+          "Vessel to be updated with vid " +
           newVessel.getVid() +
           " didn't exist in database"
         );
       }
     );
   }
-
-  public static int delete(String tableName, int vid) {
-    String sql = "DELETE FROM " + tableName + " WHERE vid = ?";
-    try (Connection conn = Database.connect()) {
-      PreparedStatement pstmt = conn.prepareStatement(sql);
-      pstmt.setInt(1, vid);
-      return pstmt.executeUpdate();
-    } catch (SQLException e) {
-      Logger
-        .getAnonymousLogger()
-        .log(
-          Level.SEVERE,
-          LocalDateTime.now() +
-          ": Could not delete from " +
-          tableName +
-          " by vid " +
-          vid +
-          " because " +
-          e.getCause()
-        );
-      return -1;
-    }
-  }
   
-
   public static Optional<Vessel> getVessel(int vid) {
     for (Vessel vessel : vessels) {
       if (vessel.getVid() == vid) return Optional.of(vessel);
     }
     return Optional.empty();
   }
+  
+  public static void delete(int vid) {
+    //update database
+    CRUDHelper.delete(tableName, vid, vidColumn);
+
+    //update cache
+    Optional<Vessel> vessel = getVessel(vid);
+    vessel.ifPresent(vessels::remove);
+  }
+
+  
 }

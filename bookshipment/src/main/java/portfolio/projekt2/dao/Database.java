@@ -12,19 +12,25 @@ public class Database {
     boatshipmentApp.class.getResource("database/boatshipmentDatabase.db")
       .toExternalForm();
 
-  private static final String requiredTable = "Vessels";
+  private static final String requiredTable[] = new String[] {
+    "Vessels",
+    "Dates",
+    "Citys",
+    "Routes",
+    "CityDateWithVids",
+    "VesselCityWithDids",
+    "DateVesselWithCids",
+  };
 
   public static boolean isOK() {
     if (!checkDrivers()) {
-      System.out.println("drivers failed");
       return false;
     } //driver errors
 
     if (!checkConnection()) {
-      System.out.println("connect failed");
       return false;
     }
-       //can't connect to db
+    //can't connect to db
 
     return checkTables(); //tables didn't exist
   }
@@ -41,7 +47,6 @@ public class Database {
           Level.SEVERE,
           LocalDateTime.now() + ": Could not start SQLite Drivers"
         );
-        System.out.println("drivers failed");
       return false;
     }
   }
@@ -56,34 +61,36 @@ public class Database {
           Level.SEVERE,
           LocalDateTime.now() + ": Could not connect to database"
         );
-        System.out.println("connect failed");
       return false;
     }
   }
 
   private static boolean checkTables() {
-    String checkTables =
-      "select DISTINCT tbl_name from sqlite_master where tbl_name = '" +
-      requiredTable +
-      "'";
+    int i;
+    int n = 0;
+    for (i = 0; i < requiredTable.length; i++) {
+      String checkTables =
+        "select DISTINCT tbl_name from sqlite_master where tbl_name = '" +
+        requiredTable[i] +
+        "'";
 
-    try (Connection connection = Database.connect()) {
-      PreparedStatement statement = connection.prepareStatement(checkTables);
-      ResultSet rs = statement.executeQuery();
-      while (rs.next()) {
-        if (rs.getString("tbl_name").equals(requiredTable)) return true;
+      try (Connection connection = Database.connect()) {
+        PreparedStatement statement = connection.prepareStatement(checkTables);
+        ResultSet rs = statement.executeQuery();
+        while (rs.next()) {
+          if (rs.getString("tbl_name").equals(requiredTable[i]))n++;
+        }
+      } catch (SQLException exception) {
+        Logger
+          .getAnonymousLogger()
+          .log(
+            Level.SEVERE,
+            LocalDateTime.now() + ": Could not find tables in database"
+          );
+        return false;
       }
-    } catch (SQLException exception) {
-      Logger
-        .getAnonymousLogger()
-        .log(
-          Level.SEVERE,
-          LocalDateTime.now() + ": Could not find tables in database"
-        );
-      System.out.println( "tables didn't exist");  
-      return false;
+      if(n==requiredTable.length){return true;}
     }
-    System.out.println( "tables didn't exist");
     return false;
   }
 
@@ -101,7 +108,6 @@ public class Database {
           ": Could not connect to SQLite DB at " +
           location
         );
-      System.out.println("connect failed");
       return null;
     }
     return connection;

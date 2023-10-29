@@ -7,29 +7,6 @@ This is a simple CRUD application that allows you to add, edit, delete and view 
 To run the application, you need to have Java 20. You can download it from [here](https://www.oracle.com/java/technologies/javase/jdk20-archive-downloads.html). You also need to have Maven 3.8.1 installed. You can download it from [here](https://maven.apache.org/download.cgi).
 
 
-
-database file is located in src/main/resources/portfolio/projekt2/database/boatshipmentDatabase.db
-Date base Tabels: 
-
-Persons (id integer PRIMARY KEY, LastName varchar(255) NOT NULL, FirstName varchar(255), Age int);
-
-Vessels (vid integer PRIMARY KEY, vesselName varchar(255) NOT NULL, usedCapacity int, maxCapacity int, availableCapacity int, cityDateWithVidIndex int);
-
-
-Dates (did integer PRIMARY KEY, dateV varchar(255) NOT NULL, cityVesselWithDidIndex int);
-
-
-Citys (cid integer PRIMARY KEY, cityV varchar(255) NOT NULL, vesselDateWithCidIndex int);
-
-Routes (rid integer PRIMARY KEY, startDid int NOT NULL, endDid int, startCid int, endCid int, rVid int);     
-
-CityDateWithVids (cDvid integer PRIMARY KEY, cityWithVid int NOT NULL, dateWithVid int);
-
-VesselCityWithDids (vCdid integer PRIMARY KEY, cityWithDid int NOT NULL, vesselWithDid int);
-
-DateVesselWithCids (dVcod integer PRIMARY KEY, dateWithCid int NOT NULL, vesselWithCid int);
-
-
 ## projekt struckture:
 
 📦bookshipment
@@ -114,3 +91,26 @@ DateVesselWithCids (dVcod integer PRIMARY KEY, dateWithCid int NOT NULL, vesselW
  ┃ ┣ 📂test-classes
  ┃ ┗ 📜bookshipment-1.0-SNAPSHOT.jar
  ┗ 📜pom.xml
+
+ ## Date base Tabels: 
+
+database file is located in src/main/resources/portfolio/projekt2/database/boatshipmentDatabase.db
+ 
+
+Persons (id integer PRIMARY KEY, LastName varchar(255) NOT NULL, FirstName varchar(255), Age int);
+
+Vessels (vid integer PRIMARY KEY, vesselName varchar(255) NOT NULL, usedCapacity int, maxCapacity int, availableCapacity int, cityDateWithVidIndex int);
+
+
+Dates (did integer PRIMARY KEY, dateV varchar(255) NOT NULL, cityVesselWithDidIndex int);
+
+
+Citys (cid integer PRIMARY KEY, cityV varchar(255) NOT NULL, vesselDateWithCidIndex int);
+
+Routes (rid integer PRIMARY KEY, startDid int NOT NULL, endDid int, startCid int, endCid int, rVid int);     
+
+CityDateWithVids (cDvid integer PRIMARY KEY, cityWithVid int NOT NULL, dateWithVid int);
+
+VesselCityWithDids (vCdid integer PRIMARY KEY, cityWithDid int NOT NULL, vesselWithDid int);
+
+DateVesselWithCids (dVcod integer PRIMARY KEY, dateWithCid int NOT NULL, vesselWithCid int);

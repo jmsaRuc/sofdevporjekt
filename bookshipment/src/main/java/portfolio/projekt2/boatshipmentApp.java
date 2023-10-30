@@ -15,17 +15,30 @@ import portfolio.projekt2.models.Vessel;
 import portfolio.projekt2.models.VesselCityWithDid;
 import portfolio.projekt2.models.DateVesselWithCid;
 import portfolio.projekt2.dao.DateVesselWithCidDAO;
+import portfolio.projekt2.models.CsvReader;
 
+import portfolio.projekt2.models.DataLoader;
 
 public class boatshipmentApp {
+  
 
   public static void main(String[] args) {
+
+    //DataLoader dataLoader = new DataLoader();
+    //dataLoader.load();
+
+    printAll();
+    //deletALl();
     /*  
     testVessels1(10);
     deletAllVessesls();
     testVessels2(10);
     deletAllVessesls();
      */
+     //testVessels2(10);
+     //testDates2(10);
+     //testCitys2(10);
+     //testRouts2(10);
     /* 
     testDates1(10);
     deleteAllDates();
@@ -64,6 +77,28 @@ public class boatshipmentApp {
     testDateVesselWithCid2(10);
     deleteAllDateVesselWithCid();
     */
+
+    //testCSVreader();
+  }
+
+  public static void deletALl(){
+    deleteAllDates();
+    deleteAllCitys();
+    deleteAllRouts();
+    deleteAllCityDateWithVid();
+    deleteAllVesselCityWithDid();
+    deleteAllDateVesselWithCid();
+    deletAllVessesls();
+  }
+
+  public static void printAll(){
+    VesselsDAO.getVessels().forEach(System.out::println);
+    DateDAO.getDates().forEach(System.out::println);
+    CityDAO.getCitys().forEach(System.out::println);
+    RouteDAO.getRoutes().forEach(System.out::println);
+    CityDateWithVidDAO.getCityDateWithVids().forEach(System.out::println);
+    VesselCityWithDidDAO.getVesselCityWithDids().forEach(System.out::println);
+    DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
   }
 
   public static void testVessels1(int amount) {
@@ -787,4 +822,16 @@ public class boatshipmentApp {
 
     DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
   }
+
+  public static void testCSVreader(){
+    String[][] routes = CsvReader.ReadRoutes();
+
+    for (int i = 0; i < routes.length; i++){
+      for (int j = 0; j < routes[i].length; j++){
+        System.out.print(routes[i][j] + " ");
+      }
+      System.out.println();
+    }
+   }
+  
 }

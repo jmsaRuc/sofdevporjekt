@@ -1,4 +1,5 @@
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\dao\VesselsDAO.java
+c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\DataLoader.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\boatshipmentApp.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\CityDateWithVid.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\dao\CRUDHelper.java
@@ -9,6 +10,7 @@ c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\City.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\Date.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\dao\RouteDAO.java
+c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\CsvReader.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\module-info.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\dao\VesselCityWithDidDAO.java
 c:\Users\Jens\sofdevporjekt\bookshipment\src\main\java\portfolio\projekt2\models\Vessel.java

@@ -16,6 +16,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┣ 📂portfolio
  ┃ ┃ ┃ ┃ ┗ 📂projekt2
  ┃ ┃ ┃ ┃ ┃ ┣ 📂controllers
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜gui.java
  ┃ ┃ ┃ ┃ ┃ ┣ 📂dao
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDAO.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVidDAO.java
@@ -29,19 +30,23 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┣ 📂models
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜City.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVid.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CsvReader.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DataLoader.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Date.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DateVesselWithCid.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Route.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Vessel.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜VesselCityWithDid.java
- ┃ ┃ ┃ ┃ ┃ ┗ 📜boatshipmentApp.java  --------------------main class
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜boatshipmentApp.java
  ┃ ┃ ┃ ┗ 📜module-info.java
  ┃ ┃ ┗ 📂resources
  ┃ ┃ ┃ ┗ 📂portfolio
  ┃ ┃ ┃ ┃ ┗ 📂projekt2
- ┃ ┃ ┃ ┃ ┃ ┗ 📂database
+ ┃ ┃ ┃ ┃ ┃ ┣ 📂database
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜boatshipmentDatabase.db
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜eksDatabase.db
+ ┃ ┃ ┃ ┃ ┃ ┗ 📂routes
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜routes1.csv
  ┃ ┗ 📂test
  ┃ ┃ ┗ 📂java
  ┣ 📂target
@@ -49,6 +54,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┣ 📂portfolio
  ┃ ┃ ┃ ┗ 📂projekt2
  ┃ ┃ ┃ ┃ ┣ 📂controllers
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜gui.class
  ┃ ┃ ┃ ┃ ┣ 📂dao
  ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDAO.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVidDAO.class
@@ -65,19 +71,21 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┣ 📂models
  ┃ ┃ ┃ ┃ ┃ ┣ 📜City.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVid.class
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜CsvReader.class
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜DataLoader.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Date.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜DateVesselWithCid.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Route.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜Vessel.class
  ┃ ┃ ┃ ┃ ┃ ┗ 📜VesselCityWithDid.class
+ ┃ ┃ ┃ ┃ ┣ 📂routes
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜routes1.csv
  ┃ ┃ ┃ ┃ ┗ 📜boatshipmentApp.class
  ┃ ┃ ┗ 📜module-info.class
  ┃ ┣ 📂generated-sources
  ┃ ┃ ┗ 📂annotations
  ┃ ┣ 📂generated-test-sources
  ┃ ┃ ┗ 📂test-annotations
- ┃ ┣ 📂maven-archiver
- ┃ ┃ ┗ 📜pom.properties
  ┃ ┣ 📂maven-status
  ┃ ┃ ┗ 📂maven-compiler-plugin
  ┃ ┃ ┃ ┣ 📂compile
@@ -86,10 +94,8 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┗ 📜inputFiles.lst
  ┃ ┃ ┃ ┗ 📂testCompile
  ┃ ┃ ┃ ┃ ┗ 📂default-testCompile
- ┃ ┃ ┃ ┃ ┃ ┣ 📜createdFiles.lst
  ┃ ┃ ┃ ┃ ┃ ┗ 📜inputFiles.lst
- ┃ ┣ 📂test-classes
- ┃ ┗ 📜bookshipment-1.0-SNAPSHOT.jar
+ ┃ ┗ 📂test-classes
  ┗ 📜pom.xml
 
  ## Date base Tabels: 
@@ -97,20 +103,17 @@ To run the application, you need to have Java 20. You can download it from [here
 database file is located in src/main/resources/portfolio/projekt2/database/boatshipmentDatabase.db
  
 
-Persons (id integer PRIMARY KEY, LastName varchar(255) NOT NULL, FirstName varchar(255), Age int);
+CREATE TABLE Routes (rid integer PRIMARY KEY, startDid int NOT NULL, endDid int, startCid int, endCid int, rVid int);
 
-Vessels (vid integer PRIMARY KEY, vesselName varchar(255) NOT NULL, usedCapacity int, maxCapacity int, availableCapacity int, cityDateWithVidIndex int);
+CREATE TABLE CityDateWithVids (cDid integer PRIMARY KEY, cityWithVid int NOT NULL, dateWithVid int, vid int);
 
+CREATE TABLE DateVesselWithCids (dVid integer PRIMARY KEY, dateWithCid int NOT NULL, vesselWithCid int, cid int);
 
-Dates (did integer PRIMARY KEY, dateV varchar(255) NOT NULL, cityVesselWithDidIndex int);
+CREATE TABLE VesselCityWithDids (vCid integer PRIMARY KEY, cityWithDid int NOT NULL, vesselWithDid int, did int);
 
+CREATE TABLE Vessels (vid integer PRIMARY KEY, vesselName varchar(255) NOT NULL, usedCapacity int, maxCapacity int, availableCapacity int,
+ cityDateWithVidIndex varchar(255));
 
-Citys (cid integer PRIMARY KEY, cityV varchar(255) NOT NULL, vesselDateWithCidIndex int);
+CREATE TABLE Dates (did integer PRIMARY KEY, dateV varchar(255) NOT NULL, cityVesselWithDidIndex varchar(255));
 
-Routes (rid integer PRIMARY KEY, startDid int NOT NULL, endDid int, startCid int, endCid int, rVid int);     
-
-CityDateWithVids (cDvid integer PRIMARY KEY, cityWithVid int NOT NULL, dateWithVid int);
-
-VesselCityWithDids (vCdid integer PRIMARY KEY, cityWithDid int NOT NULL, vesselWithDid int);
-
-DateVesselWithCids (dVcod integer PRIMARY KEY, dateWithCid int NOT NULL, vesselWithCid int);
+CREATE TABLE Citys (cid integer PRIMARY KEY, cityV varchar(255) NOT NULL, vesselDateWithCidIndex varchar(255));

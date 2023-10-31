@@ -168,6 +168,9 @@ public class DataLoader {
     
   }
   public void Updatepaires(){
+    boatshipmentApp.deleteAllDateVesselWithCid();
+    boatshipmentApp.deleteAllVesselCityWithDid();
+    boatshipmentApp.deleteAllCityDateWithVid();
     for (Route route : RouteDAO.getRoutes()){
       CityDateWithVid cityDateWithVid = new CityDateWithVid(route.getStartCid(),route.getStartDid(),route.getRVid(),0);
       CityDateWithVidDAO.instertCityDateWithVid(cityDateWithVid.getCityWithVid(),cityDateWithVid.getDateWithVid(),cityDateWithVid.getVidIn());

@@ -1,7 +1,6 @@
 package portfolio.projekt2.models;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
@@ -12,64 +11,18 @@ import portfolio.projekt2.models.*;
 
 public class DataLoader {
 
-  private final ObservableList<Vessel> vessels;
-  private final ObservableList<Date> dates;
-  private final ObservableList<City> citys;
-  private final ObservableList<Route> routes;
+ 
 
-  private final int[] vids;
-  private final int[] dids;
-  private final int[] cids;
-  private final int[] rids;
+
   private final String[][] csvArray;
   private final HashSet<String> vesSpicific;
   private final HashSet<String> daSpicific;
   private final HashSet<String> cySpicific;
   public DataLoader() {
-    this.vessels = VesselsDAO.getVessels();
-    this.dates = DateDAO.getDates();
-    this.citys = CityDAO.getCitys();
-    this.routes = RouteDAO.getRoutes();
-    this.vids = getVids();
-    this.dids = getDids();
-    this.cids = getCids();
-    this.rids = getRids();
     this.csvArray = getCsvArray();
     this.vesSpicific = getCsvSpicific(2);
     this.daSpicific = getCsvSpicific(0);
     this.cySpicific = getCsvSpicific(3);
-  }
-
-  private int[] getVids() {
-    int[] vids = new int[vessels.size()];
-    for (int i = 0; i < vessels.size(); i++) {
-      vids[i] = vessels.get(i).getVid();
-    }
-    return vids;
-  }
-
-  private int[] getDids() {
-    int[] dids = new int[dates.size()];
-    for (int i = 0; i < dates.size(); i++) {
-      dids[i] = dates.get(i).getDid();
-    }
-    return dids;
-  }
-
-  private int[] getCids() {
-    int[] cids = new int[citys.size()];
-    for (int i = 0; i < citys.size(); i++) {
-      cids[i] = citys.get(i).getCid();
-    }
-    return cids;
-  }
-
-  private int[] getRids() {
-    int[] rids = new int[routes.size()];
-    for (int i = 0; i < routes.size(); i++) {
-      rids[i] = routes.get(i).getRid();
-    }
-    return rids;
   }
 
   private String[][] getCsvArray() {
@@ -82,27 +35,36 @@ public class DataLoader {
     return hashSet;
   }
 
+  public static int random_int(int Min, int Max)
+{   
+     return (int) (Math.random()*(Max-Min))+Min;
+}
+
 
   public void loadCSV() {
 
     int Couldamout=5;
-    Random random = new Random();
+    
     Integer vesselMaxCapacity;
+    Integer vesselMaxCapacityTemp;
     Integer vesselUsedCapacity;
     Integer vesselAvailableCapacity;
-
+    int n =1;
     for (String ve : vesSpicific) {
       
-      vesselMaxCapacity = random.nextInt(1000 + 1 - 100) + 100;
-      vesselUsedCapacity = random.nextInt(vesselMaxCapacity + 1 - 1) + 1;
-      vesselAvailableCapacity = vesselMaxCapacity - vesselUsedCapacity;
+     
+
+      vesselMaxCapacityTemp = random_int(100, 1000);
+      vesselMaxCapacity = vesselMaxCapacityTemp;
+      vesselUsedCapacity = random_int(0, vesselMaxCapacityTemp);
+    vesselAvailableCapacity = vesselMaxCapacityTemp - vesselUsedCapacity;
       Vessel newVessel = new Vessel(
         ve,
         vesselUsedCapacity,
         vesselMaxCapacity,
         vesselAvailableCapacity,
         "",
-        0
+        n
       );
       VesselsDAO.insertVessel(
         newVessel.getVesselName(),
@@ -111,22 +73,25 @@ public class DataLoader {
         newVessel.getAvailableCapacity(),
         newVessel.getCityDateWithVidIndex()
       );
+      n++;
     }
-
+    n = 1;
     for (String da : daSpicific) {
       
-      Date newDate = new Date(da, "", 0);
+      Date newDate = new Date(da, "", n);
       DateDAO.insertDate(newDate.getDateV(),newDate.getCityVesselWithDidIndex());
+      n++;
     }
 
     
-
+    n = 1;
     for (String ci : cySpicific) {  
       
-      City newCity = new City(ci,"",0);
+      City newCity = new City(ci,"",n);
       CityDAO.insertCity(newCity.getCityV(),newCity.getVesselDateWithCidIndex());
+      n++;
     }
-
+    n = 1;
     for (int i = 0; i < csvArray.length; i++) {
        
       int[][] tempArray = new int[csvArray.length][Couldamout]; 
@@ -160,24 +125,34 @@ public class DataLoader {
         tempArray[i][2],
         tempArray[i][3],
         tempArray[i][4],
-        0
+        n
       );
 
       RouteDAO.insertRoute(routeT.getStartDid(),routeT.getEndDid(), routeT.getStartCid(), routeT.getEndCid(), routeT.getRVid());
+      n++;
     }
     
   }
   public void Updatepaires(){
     boatshipmentApp.deleteAllDateVesselWithCid();
+
     boatshipmentApp.deleteAllVesselCityWithDid();
+
     boatshipmentApp.deleteAllCityDateWithVid();
+
+    int n = 1;
     for (Route route : RouteDAO.getRoutes()){
-      CityDateWithVid cityDateWithVid = new CityDateWithVid(route.getStartCid(),route.getStartDid(),route.getRVid(),0);
+
+      CityDateWithVid cityDateWithVid = new CityDateWithVid(route.getStartCid(),route.getStartDid(),route.getRVid(),n);
       CityDateWithVidDAO.instertCityDateWithVid(cityDateWithVid.getCityWithVid(),cityDateWithVid.getDateWithVid(),cityDateWithVid.getVidIn());
-      DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(route.getStartDid(),route.getRVid(),route.getStartCid(),0);
+    
+      DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(route.getStartDid(),route.getRVid(),route.getStartCid(),n);
       DateVesselWithCidDAO.instertDateVesselWithCid(dateVesselWithCid.getDateWithCid(),dateVesselWithCid.getVesselWithCid(),dateVesselWithCid.getCidIn());
-      VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(route.getStartCid(),route.getRVid(),route.getStartDid(),0);
+
+      VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(route.getStartCid(),route.getRVid(),route.getStartDid(),n);
       VesselCityWithDidDAO.instertVesselCityWithDid(vesselCityWithDid.getCityWithDid(),vesselCityWithDid.getVesselWithDid(),vesselCityWithDid.getDidIn());
+
+      n++;
     }
     
     

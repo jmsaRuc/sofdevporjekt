@@ -24,10 +24,42 @@ public class boatshipmentApp {
 
   public static void main(String[] args) {
 
-    //DataLoader dataLoader = new DataLoader();
-  //dataLoader.loadCSV();
-    //dataLoader.Updatepaires();
+    for (Route route : RouteDAO.getRoutes()) {
+      System.out.print(DateDAO.getDate(route.getStartDid())+", " ); 
+      System.out.print(DateDAO.getDate(route.getEndDid())+", " );
+      System.out.print(CityDAO.getCity(route.getStartCid())+", " );
+      System.out.print(CityDAO.getCity(route.getEndCid())+", " );
+      System.out.print(VesselsDAO.getVessel(route.getRVid())+", " );
+      System.out.println();
+      
+    }
+
+    /* 
+    Vessel vessel = VesselsDAO.getVessel(1).get();
+      System.out.println(vessel);
+      for(String s : vessel.getCityDateWithVidIndex().split(",")){
+        System.out.println(s);
+        System.out.println(CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)));
+         int temp = CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)).get().getDateWithVid();
+         System.out.println(DateDAO.getDate(temp)); 
+       
+        
+
+      }
+      */
+    
+
+    /* 
+    DataLoader dataLoader = new DataLoader();
+    dataLoader.loadCSV();
+
+    
+    dataLoader.Updatepaires();
+    
+  
     printAll();
+      */
+    
     //deletALl();
     /*  
     testVessels1(10);

@@ -98,8 +98,8 @@ public class VesselsDAO {
     vessels.add(
       new Vessel(
         vesselName,
-        maxCapacity,
         usedCapacity,
+        maxCapacity,
         availableCapacity,
         cityDateWithVidIndex,
         vid

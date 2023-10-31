@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import portfolio.projekt2.models.CityDateWithVid;
@@ -14,8 +16,10 @@ public class CityDateWithVidDAO {
   private static final String tableName = "CityDateWithVids";
   private static final String cityWithVidColumn = "cityWithVid";
   private static final String dateWithVidColumn = "dateWithVid";
+  private static final String vidColumn = "vid";
 
-  private static final String cDvidColumn = "cDvid";
+
+  private static final String cDidColumn = "cDid";
 
   private static final ObservableList<CityDateWithVid> cityDateWithVids;
 
@@ -40,7 +44,8 @@ public class CityDateWithVidDAO {
           new CityDateWithVid(
             rs.getInt(cityWithVidColumn),
             rs.getInt(dateWithVidColumn),
-            rs.getInt(cDvidColumn)
+            rs.getInt(vidColumn),
+            rs.getInt(cDidColumn)
           )
         );
       }
@@ -55,40 +60,41 @@ public class CityDateWithVidDAO {
     }
   }
 
-  public static void instertCityDateWithVid(int cityWithVid, int dateWithVid) {
-    int cDvid = (int) CRUDHelper.create(
+  public static void instertCityDateWithVid(int cityWithVid, int dateWithVid, int vid) {
+    int cDid = (int) CRUDHelper.create(
       tableName,
-      new String[] { "cityWithVid", "dateWithVid" },
-      new Object[] { cityWithVid, dateWithVid },
-      new int[] { Types.INTEGER, Types.INTEGER }
+      new String[] { "cityWithVid", "dateWithVid", "vid" },
+      new Object[] { cityWithVid, dateWithVid, vid},
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER }
     );
     //update cache
-    cityDateWithVids.add(new CityDateWithVid(cityWithVid, dateWithVid, cDvid));
+    cityDateWithVids.add(new CityDateWithVid(cityWithVid, dateWithVid,vid,cDid));
   }
 
   public static void udpate(CityDateWithVid newCityDateWithVid) {
     int rows = (int) CRUDHelper.update(
       tableName,
-      new String[] { cityWithVidColumn, dateWithVidColumn },
+      new String[] { cityWithVidColumn, dateWithVidColumn, vidColumn },
       new Object[] {
         newCityDateWithVid.getCityWithVid(),
         newCityDateWithVid.getDateWithVid(),
+        newCityDateWithVid.getVidIn()
       },
-      new int[] { Types.INTEGER, Types.INTEGER },
-      cDvidColumn,
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER },
+      cDidColumn,
       Types.INTEGER,
-      newCityDateWithVid.getCDvid()
+      newCityDateWithVid.getcDid()
     );
 
     if (rows == 0) throw new IllegalStateException(
       "cityDateWithVidDAO to be updated with vid " +
-      newCityDateWithVid.getCDvid() +
+      newCityDateWithVid.getcDid() +
       " didn't exist in database"
     );
 
     //update cache
     Optional<CityDateWithVid> optionalcityDateWithVid = getCityDateWithVid(
-      newCityDateWithVid.getCDvid()
+      newCityDateWithVid.getcDid()
     );
     optionalcityDateWithVid.ifPresentOrElse(
       oldcityDateWithVid -> {
@@ -98,26 +104,26 @@ public class CityDateWithVidDAO {
       () -> {
         throw new IllegalStateException(
           "cityDateWithVidDAO to be updated with vid " +
-          newCityDateWithVid.getCDvid() +
+          newCityDateWithVid.getcDid() +
           " didn't exist in database"
         );
       }
     );
   }
 
-  public static Optional<CityDateWithVid> getCityDateWithVid(int cDvid) {
+  public static Optional<CityDateWithVid> getCityDateWithVid(int cDid) {
     for (CityDateWithVid cityDateWithVid : cityDateWithVids) {
-      if (cityDateWithVid.getCDvid() == cDvid) return Optional.of(
+      if (cityDateWithVid.getcDid() == cDid) return Optional.of(
         cityDateWithVid
       );
     }
     return Optional.empty();
   }
 
-  public static void delete(int cDvid) {
-    CRUDHelper.delete(tableName, cDvid, cDvidColumn);
+  public static void delete(int cDid) {
+    CRUDHelper.delete(tableName, cDid, cDidColumn);
 
-    Optional<CityDateWithVid> cityDateWithVid = getCityDateWithVid(cDvid);
+    Optional<CityDateWithVid> cityDateWithVid = getCityDateWithVid(cDid);
     cityDateWithVid.ifPresent(cityDateWithVids::remove);
   }
 }

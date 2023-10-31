@@ -1,30 +1,30 @@
 package portfolio.projekt2.models;
 
-import java.util.Optional;
-
 import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
-import portfolio.projekt2.dao.VesselsDAO;
+
 public class CityDateWithVid {
 
   private final ReadOnlyIntegerProperty cityWithVid;
   private final ReadOnlyIntegerProperty dateWithVid;
- 
-  private final int cDvid;
-  private final Optional<Vessel> vessel;  
+  private final ReadOnlyIntegerProperty vid;
 
+  private final int cDid;
 
-  public CityDateWithVid(Integer cityWithVid, Integer dateWithVid, int cDvid) {
+  public CityDateWithVid(
+    Integer cityWithVid,
+    Integer dateWithVid,
+    Integer vid,
+    int cDid
+  ) {
     this.cityWithVid = new SimpleIntegerProperty(cityWithVid);
     this.dateWithVid = new SimpleIntegerProperty(dateWithVid);
-    this.cDvid = cDvid;
-    this.vessel = VesselsDAO.getVessel(cDvid);
+    this.vid = new SimpleIntegerProperty(vid);
+    this.cDid = cDid;
   }
 
-  public int getCDvid() {
-    return cDvid;
+  public int getcDid() {
+    return cDid;
   }
 
   public int getCityWithVid() {
@@ -43,7 +43,13 @@ public class CityDateWithVid {
     return dateWithVid;
   }
 
-  
+  public int getVidIn() {
+    return vid.get();
+  }
+
+  public ReadOnlyIntegerProperty vidInProperty() {
+    return vid;
+  }
 
   @Override
   public String toString() {
@@ -52,8 +58,10 @@ public class CityDateWithVid {
       cityWithVid.get() +
       ", dateWithVid " +
       dateWithVid.get() +
-      ", cDvid " +
-      cDvid +
+      ", vid " +
+      vid.get() +
+      ", cDid " +
+      cDid +
       "]"
     );
   }

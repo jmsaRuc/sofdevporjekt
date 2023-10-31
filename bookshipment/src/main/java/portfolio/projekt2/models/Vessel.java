@@ -11,7 +11,7 @@ public class Vessel {
   private final ReadOnlyIntegerProperty usedCapacity;
   private final ReadOnlyIntegerProperty maxCapacity;
   private final ReadOnlyIntegerProperty availableCapacity;
-  private final ReadOnlyIntegerProperty cityDateWithVid;
+  private final ReadOnlyStringProperty cityDateWithVid;
   private final int vid;
 
   public Vessel(
@@ -19,14 +19,14 @@ public class Vessel {
     Integer usedCapacity,
     Integer maxCapacity,
     Integer availableCapacity,
-    Integer cityDateWithVid,
+    String cityDateWithVid,
     int vid
   ) {
     this.vesselName = new SimpleStringProperty(vesselName);
     this.usedCapacity = new SimpleIntegerProperty(usedCapacity);
     this.maxCapacity = new SimpleIntegerProperty(maxCapacity);
     this.availableCapacity = new SimpleIntegerProperty(availableCapacity);
-    this.cityDateWithVid = new SimpleIntegerProperty(cityDateWithVid);
+    this.cityDateWithVid = new SimpleStringProperty(cityDateWithVid);
     this.vid = vid;
   }
 
@@ -67,11 +67,11 @@ public class Vessel {
     return availableCapacity;
   }
 
-  public int getCityDateWithVidIndex() {
+  public String getCityDateWithVidIndex() {
     return cityDateWithVid.get();
   }
 
-  public ReadOnlyIntegerProperty cityDateWithVidProperty() {
+  public ReadOnlyStringProperty cityDateWithVidProperty() {
     return cityDateWithVid;
   }
 
@@ -80,7 +80,7 @@ public class Vessel {
     return (
       "Vessel [" +
       vesselName.get() +
-      ", usedCapacit " + usedCapacity.get() + ", maxCapacity " + maxCapacity.get() + ", availableCapacity " + availableCapacity.get() + ", cityDateWithVid " + cityDateWithVid.get() + ", vid " + vid + "]"
+      " usedCapacit " + usedCapacity.get() + ", maxCapacity " + maxCapacity.get() + ", availableCapacity " + availableCapacity.get() + ", cityDateWithVid " + cityDateWithVid.get() + " vid " + vid + "]"
     );
   }
 }

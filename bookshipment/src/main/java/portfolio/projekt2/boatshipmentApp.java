@@ -25,8 +25,8 @@ public class boatshipmentApp {
   public static void main(String[] args) {
 
     //DataLoader dataLoader = new DataLoader();
-    //dataLoader.load();
-
+  //dataLoader.loadCSV();
+    //dataLoader.Updatepaires();
     printAll();
     //deletALl();
     /*  
@@ -58,20 +58,20 @@ public class boatshipmentApp {
     deleteAllRouts();
     */
 
-    /* 
+    /*
     testCityDateWithVid1(10);
     deleteAllCityDateWithVid();
     testCityDateWithVid2(10);
     deleteAllCityDateWithVid();
     */
-    /*
+    /* 
     tetsVesselCityWithDid1(10);
     deleteAllVesselCityWithDid();
     tetsVesselCityWithDid2(10);
     deleteAllVesselCityWithDid();
     */
 
-    /* 
+    /*
     testDateVesselWithCid1(10);
     deleteAllDateVesselWithCid();
     testDateVesselWithCid2(10);
@@ -112,7 +112,7 @@ public class boatshipmentApp {
         100 + i,
         200 + 2 + i,
         100 + i,
-        0 + i,
+        "" + i,
         n + i
       );
       VesselsDAO.insertVessel(
@@ -134,7 +134,7 @@ public class boatshipmentApp {
         100 + i,
         200 + 2 + i,
         100 + i,
-        0 + i,
+        "" + i,
         n
       );
       VesselsDAO.update(vessel2);
@@ -161,7 +161,7 @@ public class boatshipmentApp {
         100 + i,
         200 + 2 + i,
         100 + i,
-        0 + i,
+        "" + i,
         n + i
       );
       VesselsDAO.insertVessel(
@@ -186,7 +186,7 @@ public class boatshipmentApp {
         100 + i,
         200 + 2 + i,
         100 + i,
-        0 + i,
+        "" + i,
         n + i
       );
       VesselsDAO.update(vessel2);
@@ -225,7 +225,7 @@ public class boatshipmentApp {
     }
     int n = 1;
     for (int i = 0; i < amount; i++) {
-      Date date = new Date("2021-01-01" + " " + i, 0 + i, n + i);
+      Date date = new Date("2021-01-01" + " " + i, "" + i, n + i);
       DateDAO.insertDate(date.getDateV(), date.getCityVesselWithDidIndex());
       System.out.println(DateDAO.getDate(n));
       if (!Database.isOK()) {
@@ -234,7 +234,7 @@ public class boatshipmentApp {
         );
         System.exit(1);
       }
-      Date date2 = new Date("2021-01-01" + "UP" + i, 0 + i, n);
+      Date date2 = new Date("2021-01-01" + "UP" + i, "" + i, n);
       DateDAO.update(date2);
       System.out.println(DateDAO.getDate(n));
       DateDAO.delete(n);
@@ -254,7 +254,7 @@ public class boatshipmentApp {
     }
     int n = 1;
     for (int i = 0; i < amount; i++) {
-      Date date = new Date("2021-01-01" + " " + i, 0 + i, n + i);
+      Date date = new Date("2021-01-01" + " " + i, "" + i, n + i);
       DateDAO.insertDate(date.getDateV(), date.getCityVesselWithDidIndex());
       System.out.println(DateDAO.getDate(n + i));
       if (!Database.isOK()) {
@@ -268,7 +268,7 @@ public class boatshipmentApp {
       System.exit(1);
     }
     for (int i = 0; i < amount; i++) {
-      Date date2 = new Date("2021-01-01" + "UP" + i, 0 + i, n + i);
+      Date date2 = new Date("2021-01-01" + "UP" + i, "" + i, n + i);
       DateDAO.update(date2);
 
       System.out.println(DateDAO.getDate(n + i));
@@ -301,7 +301,7 @@ public class boatshipmentApp {
     }
     int n = 1;
     for (int i = 0; i < amount; i++) {
-      City city = new City("city" + i, 0 + i, n + i);
+      City city = new City("city" + i, "" + i, n + i);
       CityDAO.insertCity(city.getCityV(), city.getVesselDateWithCidIndex());
       System.out.println(CityDAO.getCity(n));
       if (!Database.isOK()) {
@@ -310,7 +310,7 @@ public class boatshipmentApp {
         );
         System.exit(1);
       }
-      City city2 = new City("cityUP" + i, 0 + i, n);
+      City city2 = new City("cityUP" + i, "" + i, n);
       CityDAO.update(city2);
       System.out.println(CityDAO.getCity(n));
       CityDAO.delete(n);
@@ -330,7 +330,7 @@ public class boatshipmentApp {
     }
     int n = 1;
     for (int i = 0; i < amount; i++) {
-      City city = new City("city" + i, 0 + i, n + i);
+      City city = new City("city" + i, "" + i, n + i);
       CityDAO.insertCity(city.getCityV(), city.getVesselDateWithCidIndex());
       System.out.println(CityDAO.getCity(n + i));
       if (!Database.isOK()) {
@@ -344,7 +344,7 @@ public class boatshipmentApp {
       System.exit(1);
     }
     for (int i = 0; i < amount; i++) {
-      City city2 = new City("cityUP" + i, 0 + i, n + i);
+      City city2 = new City("cityUP" + i, "" + i, n + i);
       CityDAO.update(city2);
 
       System.out.println(CityDAO.getCity(n + i));
@@ -469,11 +469,13 @@ public class boatshipmentApp {
       CityDateWithVid cityDateWithVid = new CityDateWithVid(
         1 + i,
         1 + i,
+        1 + i,
         n + i
       );
       CityDateWithVidDAO.instertCityDateWithVid(
         cityDateWithVid.getCityWithVid(),
-        cityDateWithVid.getDateWithVid()
+        cityDateWithVid.getDateWithVid(),
+        cityDateWithVid.getVidIn()
       );
       System.out.println(CityDateWithVidDAO.getCityDateWithVid(n));
       if (!Database.isOK()) {
@@ -485,6 +487,7 @@ public class boatshipmentApp {
 
       CityDateWithVid cityDateWithVid2 = new CityDateWithVid(
         1 + 200 + i,
+        1 + i,
         1 + i,
         n
       );
@@ -518,11 +521,13 @@ public class boatshipmentApp {
       CityDateWithVid cityDateWithVid = new CityDateWithVid(
         1 + i,
         1 + i,
+        1 + i,
         n + i
       );
       CityDateWithVidDAO.instertCityDateWithVid(
         cityDateWithVid.getCityWithVid(),
-        cityDateWithVid.getDateWithVid()
+        cityDateWithVid.getDateWithVid(),
+        cityDateWithVid.getVidIn()
       );
       System.out.println(CityDateWithVidDAO.getCityDateWithVid(n + i));
       if (!Database.isOK()) {
@@ -538,6 +543,7 @@ public class boatshipmentApp {
     for (int i = 0; i < amount; i++) {
       CityDateWithVid cityDateWithVid2 = new CityDateWithVid(
         1 + 200 + i,
+        1 + i,
         1 + i,
         n + i
       );
@@ -568,7 +574,7 @@ public class boatshipmentApp {
         CityDateWithVidDAO
           .getCityDateWithVids()
           .forEach(cityDateWithVid ->
-            CityDateWithVidDAO.delete(cityDateWithVid.getCDvid())
+            CityDateWithVidDAO.delete(cityDateWithVid.getcDid())
           );
       } catch (Exception ex) {}
     }
@@ -587,11 +593,13 @@ public class boatshipmentApp {
       VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(
         1 + i,
         1 + i,
+        1 + i,
         n + i
       );
       VesselCityWithDidDAO.instertVesselCityWithDid(
         vesselCityWithDid.getCityWithDid(),
-        vesselCityWithDid.getVesselWithDid()
+        vesselCityWithDid.getVesselWithDid(),
+        vesselCityWithDid.getDidIn()
       );
       System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n));
       if (!Database.isOK()) {
@@ -603,6 +611,7 @@ public class boatshipmentApp {
 
       VesselCityWithDid vesselCityWithDid2 = new VesselCityWithDid(
         1 + 200 + i,
+        1 + i,
         1 + i,
         n
       );
@@ -637,11 +646,13 @@ public class boatshipmentApp {
       VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(
         1 + i,
         1 + i,
+        1 + i,
         n + i
       );
       VesselCityWithDidDAO.instertVesselCityWithDid(
         vesselCityWithDid.getCityWithDid(),
-        vesselCityWithDid.getVesselWithDid()
+        vesselCityWithDid.getVesselWithDid(),
+        vesselCityWithDid.getDidIn()
       );
       System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n + i));
       if (!Database.isOK()) {
@@ -657,6 +668,7 @@ public class boatshipmentApp {
     for (int i = 0; i < amount; i++) {
       VesselCityWithDid vesselCityWithDid2 = new VesselCityWithDid(
         1 + 200 + i,
+        1 + i,
         1 + i,
         n + i
       );
@@ -687,7 +699,7 @@ public class boatshipmentApp {
         VesselCityWithDidDAO
           .getVesselCityWithDids()
           .forEach(vesselCityWithDid ->
-            VesselCityWithDidDAO.delete(vesselCityWithDid.getVCdid())
+            VesselCityWithDidDAO.delete(vesselCityWithDid.getVCid())
           );
       } catch (Exception ex) {}
     }
@@ -707,11 +719,13 @@ public class boatshipmentApp {
       DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(
         1 + i,
         1 + i,
+        1 + i,
         n + i
       );
       DateVesselWithCidDAO.instertDateVesselWithCid(
         dateVesselWithCid.getDateWithCid(),
-        dateVesselWithCid.getVesselWithCid()
+        dateVesselWithCid.getVesselWithCid(),
+        dateVesselWithCid.getCidIn()
       );
       System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n));
       if (!Database.isOK()) {
@@ -727,6 +741,7 @@ public class boatshipmentApp {
 
       DateVesselWithCid dateVesselWithCid2 = new DateVesselWithCid(
         1 + 200 + i,
+        1 + i,
         1 + i,
         n
       );
@@ -761,11 +776,13 @@ public class boatshipmentApp {
       DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(
         1 + i,
         1 + i,
+        1+ i,
         n + i
       );
       DateVesselWithCidDAO.instertDateVesselWithCid(
         dateVesselWithCid.getDateWithCid(),
-        dateVesselWithCid.getVesselWithCid()
+        dateVesselWithCid.getVesselWithCid(),
+        dateVesselWithCid.getCidIn()
       );
       System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n + i));
       if (!Database.isOK()) {
@@ -786,6 +803,7 @@ public class boatshipmentApp {
       DateVesselWithCid dateVesselWithCid2 = new DateVesselWithCid(
         1 + 200 + i,
         1 + i,
+        1+ i,
         n + i
       );
       DateVesselWithCidDAO.udpate(dateVesselWithCid2);
@@ -815,7 +833,7 @@ public class boatshipmentApp {
         DateVesselWithCidDAO
           .getDateVesselWithCids()
           .forEach(dateVesselWithCid ->
-            DateVesselWithCidDAO.delete(dateVesselWithCid.getdVcid())
+            DateVesselWithCidDAO.delete(dateVesselWithCid.getdVid())
           );
       } catch (Exception ex) {}
     }

@@ -10,20 +10,23 @@ public class DateVesselWithCid {
 
   private final ReadOnlyIntegerProperty dateWithCid;
   private final ReadOnlyIntegerProperty vesselWithCid;
-  private final int dVcid;
+  private final ReadOnlyIntegerProperty cid;
+  private final int dVid;
 
   public DateVesselWithCid(
     Integer dateWithCid,
     Integer vesselWithCid,
-    int dVcid
+    Integer cid,
+    int dVid
   ) {
     this.dateWithCid = new SimpleIntegerProperty(dateWithCid);
     this.vesselWithCid = new SimpleIntegerProperty(vesselWithCid);
-    this.dVcid = dVcid;
+    this.cid = new SimpleIntegerProperty(cid);
+    this.dVid = dVid;
   }
 
-  public int getdVcid() {
-    return dVcid;
+  public int getdVid() {
+    return dVid;
   }
 
   public int getDateWithCid() {
@@ -42,6 +45,14 @@ public class DateVesselWithCid {
     return vesselWithCid;
   }
 
+  public int getCidIn() {
+    return cid.get();
+  }
+
+  public ReadOnlyIntegerProperty cidProperty() {
+    return cid;
+  }
+
   @Override
   public String toString() {
     return (
@@ -49,8 +60,10 @@ public class DateVesselWithCid {
       dateWithCid.get() +
       ", vesselWithCid " +
       vesselWithCid.get() +
-      ", dVcid " +
-      dVcid +
+      ", cid " +
+      cid.get() +
+      ", dVid " +
+      dVid +
       "]"
     );
   }

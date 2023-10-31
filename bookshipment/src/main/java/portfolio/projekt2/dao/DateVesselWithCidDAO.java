@@ -14,8 +14,9 @@ public class DateVesselWithCidDAO {
   private static final String tableName = "DateVesselWithCids";
   private static final String dateWithCidColumn = "dateWithCid";
   private static final String vesselWithCidColumn = "vesselWithCid";
+  private static final String cidColumn = "cid";
 
-  private static final String dVcidColumn = "dVcid";
+  private static final String dVidColumn = "dVid";
 
   private static final ObservableList<DateVesselWithCid> dateVesselWithCids;
 
@@ -40,7 +41,8 @@ public class DateVesselWithCidDAO {
           new DateVesselWithCid(
             rs.getInt(dateWithCidColumn),
             rs.getInt(vesselWithCidColumn),
-            rs.getInt(dVcidColumn)
+            rs.getInt(cidColumn),
+            rs.getInt(dVidColumn)
           )
         );
       }
@@ -57,43 +59,45 @@ public class DateVesselWithCidDAO {
 
   public static void instertDateVesselWithCid(
     int dateWithCid,
-    int vesselWithCid
+    int vesselWithCid,
+    int cid
   ) {
-    int dVcid = (int) CRUDHelper.create(
+    int dVid = (int) CRUDHelper.create(
       tableName,
-      new String[] { "dateWithCid", "vesselWithCid" },
-      new Object[] { dateWithCid, vesselWithCid },
-      new int[] { Types.INTEGER, Types.INTEGER }
+      new String[] { "dateWithCid", "vesselWithCid", "cid" },
+      new Object[] { dateWithCid, vesselWithCid, cid },
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER }
     );
     //update cache
     dateVesselWithCids.add(
-      new DateVesselWithCid(dateWithCid, vesselWithCid, dVcid)
+      new DateVesselWithCid(dateWithCid, vesselWithCid, cid ,dVid)
     );
   }
 
   public static void udpate(DateVesselWithCid newDateVesselWithCid) {
     int rows = (int) CRUDHelper.update(
       tableName,
-      new String[] { dateWithCidColumn, vesselWithCidColumn },
+      new String[] { dateWithCidColumn, vesselWithCidColumn, cidColumn },
       new Object[] {
         newDateVesselWithCid.getDateWithCid(),
         newDateVesselWithCid.getVesselWithCid(),
+        newDateVesselWithCid.getCidIn()
       },
-      new int[] { Types.INTEGER, Types.INTEGER },
-      dVcidColumn,
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER },
+      dVidColumn,
       Types.INTEGER,
-      newDateVesselWithCid.getdVcid()
+      newDateVesselWithCid.getdVid()
     );
 
     if (rows == 0) throw new IllegalStateException(
       "Vesse to be updated with vid " +
-      newDateVesselWithCid.getdVcid() +
+      newDateVesselWithCid.getdVid() +
       " didn't exist in database"
     );
 
     //update cache
     Optional<DateVesselWithCid> optionalDateVesselWithCid = getDateVesselWithCid(
-      newDateVesselWithCid.getdVcid()
+      newDateVesselWithCid.getdVid()
     );
     optionalDateVesselWithCid.ifPresentOrElse(
       oldDateVesselWithCid -> {
@@ -103,26 +107,26 @@ public class DateVesselWithCidDAO {
       () -> {
         throw new IllegalStateException(
           "Vesse to be updated with vid " +
-          newDateVesselWithCid.getdVcid() +
+          newDateVesselWithCid.getdVid() +
           " didn't exist in database"
         );
       }
     );
   }
 
-  public static Optional<DateVesselWithCid> getDateVesselWithCid(int dVcid) {
+  public static Optional<DateVesselWithCid> getDateVesselWithCid(int dVid) {
     for (DateVesselWithCid DateVesselWithCid : dateVesselWithCids) {
-      if (DateVesselWithCid.getdVcid() == dVcid) return Optional.of(
+      if (DateVesselWithCid.getdVid() == dVid) return Optional.of(
         DateVesselWithCid
       );
     }
     return Optional.empty();
   }
 
-  public static void delete(int dVcid) {
-    CRUDHelper.delete(tableName, dVcid, dVcidColumn);
+  public static void delete(int dVid) {
+    CRUDHelper.delete(tableName, dVid, dVidColumn);
 
-    Optional<DateVesselWithCid> DateVesselWithCid = getDateVesselWithCid(dVcid);
+    Optional<DateVesselWithCid> DateVesselWithCid = getDateVesselWithCid(dVid);
     DateVesselWithCid.ifPresent(dateVesselWithCids::remove);
   }
 }

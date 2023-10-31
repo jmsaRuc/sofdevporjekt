@@ -40,7 +40,7 @@ public class CityDAO {
         citys.add(
           new City(
             rs.getString(CityVColumn),
-            rs.getInt(vesselDateWithCidIndexColumn),
+            rs.getString(vesselDateWithCidIndexColumn),
             rs.getInt(cidColumn)
           )
         );
@@ -57,13 +57,13 @@ public class CityDAO {
     }
   }
 
-  public static void insertCity(String cityV, int cityVesselWithDidIndex) {
+  public static void insertCity(String cityV, String cityVesselWithDidIndex) {
     //upCity database
     int cid = (int) CRUDHelper.create(
       tableName,
       new String[] { "cityV", "vesselDateWithCidIndex" },
       new Object[] { cityV, cityVesselWithDidIndex },
-      new int[] { Types.VARCHAR, Types.INTEGER }
+      new int[] { Types.VARCHAR, Types.VARCHAR }
     );
     //upCity cache
     citys.add(new City(cityV, cityVesselWithDidIndex, cid));
@@ -77,7 +77,7 @@ public class CityDAO {
       new Object[] { newCity.getCityV(), newCity.getVesselDateWithCidIndex() },
       new int[] {
         Types.VARCHAR,
-        Types.INTEGER,
+        Types.VARCHAR,
       },
       cidColumn,
       Types.INTEGER,

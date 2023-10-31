@@ -8,13 +8,13 @@ import javafx.beans.property.SimpleStringProperty;
 public class Date {
 
   private final ReadOnlyStringProperty dateV;
-  private final ReadOnlyIntegerProperty cityVesselWithDidIndex;
+  private final ReadOnlyStringProperty cityVesselWithDidIndex;
   private final int did;
 
-  public Date(String dateV, Integer cityVesselWithDidIndex, int did) {
+  public Date(String dateV, String cityVesselWithDidIndex, int did) {
     this.dateV = new SimpleStringProperty(dateV);
     this.cityVesselWithDidIndex =
-      new SimpleIntegerProperty(cityVesselWithDidIndex);
+      new SimpleStringProperty(cityVesselWithDidIndex);
     this.did = did;
   }
 
@@ -30,11 +30,11 @@ public class Date {
     return dateV;
   }
 
-  public int getCityVesselWithDidIndex() {
+  public String getCityVesselWithDidIndex() {
     return cityVesselWithDidIndex.get();
   }
 
-  public ReadOnlyIntegerProperty CityVesselWithDidIndexProperty() {
+  public ReadOnlyStringProperty CityVesselWithDidIndexProperty() {
     return cityVesselWithDidIndex;
   }
 
@@ -45,7 +45,7 @@ public class Date {
       dateV.get() +
       ", cityVesselWithDidIndex " +
       cityVesselWithDidIndex.get() +
-      ", did " +
+      " did " +
       did +
       "]"
     );

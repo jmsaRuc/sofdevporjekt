@@ -82,7 +82,8 @@ public class DataLoader {
     return hashSet;
   }
 
-  public void load() {
+
+  public void loadCSV() {
 
     int Couldamout=5;
     Random random = new Random();
@@ -100,7 +101,7 @@ public class DataLoader {
         vesselUsedCapacity,
         vesselMaxCapacity,
         vesselAvailableCapacity,
-        0,
+        "",
         0
       );
       VesselsDAO.insertVessel(
@@ -114,7 +115,7 @@ public class DataLoader {
 
     for (String da : daSpicific) {
       
-      Date newDate = new Date(da, 0, 0);
+      Date newDate = new Date(da, "", 0);
       DateDAO.insertDate(newDate.getDateV(),newDate.getCityVesselWithDidIndex());
     }
 
@@ -122,7 +123,7 @@ public class DataLoader {
 
     for (String ci : cySpicific) {  
       
-      City newCity = new City(ci,0,0);
+      City newCity = new City(ci,"",0);
       CityDAO.insertCity(newCity.getCityV(),newCity.getVesselDateWithCidIndex());
     }
 
@@ -164,6 +165,41 @@ public class DataLoader {
 
       RouteDAO.insertRoute(routeT.getStartDid(),routeT.getEndDid(), routeT.getStartCid(), routeT.getEndCid(), routeT.getRVid());
     }
+    
+  }
+  public void Updatepaires(){
+    for (Route route : RouteDAO.getRoutes()){
+      CityDateWithVid cityDateWithVid = new CityDateWithVid(route.getStartCid(),route.getStartDid(),route.getRVid(),0);
+      CityDateWithVidDAO.instertCityDateWithVid(cityDateWithVid.getCityWithVid(),cityDateWithVid.getDateWithVid(),cityDateWithVid.getVidIn());
+      DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(route.getStartDid(),route.getRVid(),route.getStartCid(),0);
+      DateVesselWithCidDAO.instertDateVesselWithCid(dateVesselWithCid.getDateWithCid(),dateVesselWithCid.getVesselWithCid(),dateVesselWithCid.getCidIn());
+      VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(route.getStartCid(),route.getRVid(),route.getStartDid(),0);
+      VesselCityWithDidDAO.instertVesselCityWithDid(vesselCityWithDid.getCityWithDid(),vesselCityWithDid.getVesselWithDid(),vesselCityWithDid.getDidIn());
+    }
+    
+    
+    for (CityDateWithVid cityDateWithVid : CityDateWithVidDAO.getCityDateWithVids()){
       
+      Optional<City> city = CityDAO.getCity(cityDateWithVid.getCityWithVid());
+      String tempC = city.get().getVesselDateWithCidIndex() + cityDateWithVid.getDateWithVid() + ",";
+      City newCity = new City(city.get().getCityV(),tempC,city.get().getCid());
+      CityDAO.update(newCity);  
+    }
+
+    for (DateVesselWithCid dateVesselWithCid : DateVesselWithCidDAO.getDateVesselWithCids()){
+      
+      Optional<Date> date = DateDAO.getDate(dateVesselWithCid.getDateWithCid());
+      String tempC = date.get().getCityVesselWithDidIndex() + dateVesselWithCid.getVesselWithCid() + ",";
+      Date newDate = new Date(date.get().getDateV(),tempC,date.get().getDid());
+      DateDAO.update(newDate);  
+    }
+
+    for (VesselCityWithDid vesselCityWithDid : VesselCityWithDidDAO.getVesselCityWithDids()){
+      
+      Optional<Vessel> vessel = VesselsDAO.getVessel(vesselCityWithDid.getVesselWithDid());
+      String tempC = vessel.get().getCityDateWithVidIndex() + vesselCityWithDid.getCityWithDid() + ",";
+      Vessel newVessel = new Vessel(vessel.get().getVesselName(),vessel.get().getUsedCapacity(),vessel.get().getMaxCapacity(),vessel.get().getAvailableCapacity(),tempC,vessel.get().getVid());
+      VesselsDAO.update(newVessel);  
+    }
   }
 }

@@ -1,33 +1,33 @@
 package portfolio.projekt2.models;
 
-import java.util.Optional;
 import javafx.beans.property.ReadOnlyIntegerProperty;
-import javafx.beans.property.ReadOnlyStringProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleStringProperty;
 import portfolio.projekt2.dao.VesselsDAO;
 
 public class VesselCityWithDid {
 
   private final ReadOnlyIntegerProperty cityWithDid;
   private final ReadOnlyIntegerProperty vesselWithDid;
+  private final ReadOnlyIntegerProperty did;
 
-  private final int vCdid;
-  private final Optional<Vessel> vessel;
+  private final int vCid;
+  
 
   public VesselCityWithDid(
     Integer cityWithDid,
     Integer vesselWithDid,
-    int vCdid
+    Integer did,
+    int vCid
   ) {
     this.cityWithDid = new SimpleIntegerProperty(cityWithDid);
     this.vesselWithDid = new SimpleIntegerProperty(vesselWithDid);
-    this.vCdid = vCdid;
-    this.vessel = VesselsDAO.getVessel(vCdid);
+    this.did = new SimpleIntegerProperty(did);
+    this.vCid = vCid;
+    
   }
 
-  public int getVCdid() {
-    return vCdid;
+  public int getVCid() {
+    return vCid;
   }
 
   public int getCityWithDid() {
@@ -46,8 +46,12 @@ public class VesselCityWithDid {
     return vesselWithDid;
   }
 
-  public Optional<Vessel> getVessel() {
-    return vessel;
+  public int getDidIn() {
+    return did.get();
+  }
+
+  public ReadOnlyIntegerProperty didProperty() {
+    return did;
   }
 
   @Override
@@ -56,9 +60,9 @@ public class VesselCityWithDid {
       "VesselCityWithDids [" +
       cityWithDid.get() +
       ", vesselWithDid " +
-      vesselWithDid.get() +
-      ", vCdid " +
-      vCdid +
+      vesselWithDid.get() + ", did " + did.get() +
+      ", vCid " +
+      vCid +
       "]"
     );
   }

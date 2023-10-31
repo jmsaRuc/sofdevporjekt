@@ -40,7 +40,7 @@ public class DateDAO {
         dates.add(
           new Date(
             rs.getString(dateVColumn),
-            rs.getInt(cityVesselWithDidIndexColumn),
+            rs.getString(cityVesselWithDidIndexColumn),
             rs.getInt(didColumn)
           )
         );
@@ -57,13 +57,13 @@ public class DateDAO {
     }
   }
 
-  public static void insertDate(String dateV, int cityVesselWithDidIndex) {
+  public static void insertDate(String dateV,String cityVesselWithDidIndex) {
     //update database
     int did = (int) CRUDHelper.create(
       tableName,
       new String[] { "dateV", "cityVesselWithDidIndex" },
       new Object[] { dateV, cityVesselWithDidIndex },
-      new int[] { Types.VARCHAR, Types.INTEGER }
+      new int[] { Types.VARCHAR, Types.VARCHAR }
     );
     //update cache
     dates.add(new Date(dateV, cityVesselWithDidIndex, did));
@@ -77,7 +77,7 @@ public class DateDAO {
       new Object[] { newDate.getDateV(), newDate.getCityVesselWithDidIndex() },
       new int[] {
         Types.VARCHAR,
-        Types.INTEGER,
+        Types.VARCHAR,
       },
       didColumn,
       Types.INTEGER,

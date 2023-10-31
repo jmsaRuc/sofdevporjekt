@@ -14,8 +14,8 @@ public class VesselCityWithDidDAO {
   private static final String tableName = "VesselCityWithDids";
   private static final String cityWithDidColumn = "cityWithDid";
   private static final String vesselWithDidColumn = "vesselWithDid";
-
-  private static final String vCdidColumn = "vCdid";
+  private static final String didColumn = "did";
+  private static final String vCidColumn = "vCid";
 
   private static final ObservableList<VesselCityWithDid> vesselCityWithDids;
 
@@ -40,7 +40,8 @@ public class VesselCityWithDidDAO {
           new VesselCityWithDid(
             rs.getInt(cityWithDidColumn),
             rs.getInt(vesselWithDidColumn),
-            rs.getInt(vCdidColumn)
+            rs.getInt(didColumn),
+            rs.getInt(vCidColumn)
           )
         );
       }
@@ -57,43 +58,45 @@ public class VesselCityWithDidDAO {
 
   public static void instertVesselCityWithDid(
     int cityWithDid,
-    int vesselWithDid
+    int vesselWithDid,
+    int did
   ) {
-    int vCdid = (int) CRUDHelper.create(
+    int vCid = (int) CRUDHelper.create(
       tableName,
-      new String[] { "cityWithDid", "vesselWithDid" },
-      new Object[] { cityWithDid, vesselWithDid },
-      new int[] { Types.INTEGER, Types.INTEGER }
+      new String[] { "cityWithDid", "vesselWithDid", "did" },
+      new Object[] { cityWithDid, vesselWithDid, did },
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER}
     );
     //update cache
     vesselCityWithDids.add(
-      new VesselCityWithDid(cityWithDid, vesselWithDid, vCdid)
+      new VesselCityWithDid(cityWithDid, vesselWithDid, did ,vCid)
     );
   }
 
   public static void udpate(VesselCityWithDid newVesselCityWithDid) {
     int rows = (int) CRUDHelper.update(
       tableName,
-      new String[] { cityWithDidColumn, vesselWithDidColumn },
+      new String[] { cityWithDidColumn, vesselWithDidColumn, didColumn },
       new Object[] {
         newVesselCityWithDid.getCityWithDid(),
         newVesselCityWithDid.getVesselWithDid(),
+        newVesselCityWithDid.getDidIn(),
       },
-      new int[] { Types.INTEGER, Types.INTEGER },
-      vCdidColumn,
+      new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER },
+      vCidColumn,
       Types.INTEGER,
-      newVesselCityWithDid.getVCdid()
+      newVesselCityWithDid.getVCid()
     );
 
     if (rows == 0) throw new IllegalStateException(
       "Vesse to be updated with vid " +
-      newVesselCityWithDid.getVCdid() +
+      newVesselCityWithDid.getVCid() +
       " didn't exist in database"
     );
 
     //update cache
     Optional<VesselCityWithDid> optionalVesselCityWithDid = getVesselCityWithDid(
-      newVesselCityWithDid.getVCdid()
+      newVesselCityWithDid.getVCid()
     );
     optionalVesselCityWithDid.ifPresentOrElse(
       oldVesselCityWithDid -> {
@@ -103,26 +106,26 @@ public class VesselCityWithDidDAO {
       () -> {
         throw new IllegalStateException(
           "Vesse to be updated with vid " +
-          newVesselCityWithDid.getVCdid() +
+          newVesselCityWithDid.getVCid() +
           " didn't exist in database"
         );
       }
     );
   }
 
-  public static Optional<VesselCityWithDid> getVesselCityWithDid(int vCdid) {
+  public static Optional<VesselCityWithDid> getVesselCityWithDid(int vCid) {
     for (VesselCityWithDid VesselCityWithDid : vesselCityWithDids) {
-      if (VesselCityWithDid.getVCdid() == vCdid) return Optional.of(
+      if (VesselCityWithDid.getVCid() == vCid) return Optional.of(
         VesselCityWithDid
       );
     }
     return Optional.empty();
   }
 
-  public static void delete(int vCdid) {
-    CRUDHelper.delete(tableName, vCdid, vCdidColumn);
+  public static void delete(int vCid) {
+    CRUDHelper.delete(tableName, vCid, vCidColumn);
 
-    Optional<VesselCityWithDid> VesselCityWithDid = getVesselCityWithDid(vCdid);
+    Optional<VesselCityWithDid> VesselCityWithDid = getVesselCityWithDid(vCid);
     VesselCityWithDid.ifPresent(vesselCityWithDids::remove);
   }
 }

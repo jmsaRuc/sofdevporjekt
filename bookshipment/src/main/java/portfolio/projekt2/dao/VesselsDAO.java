@@ -46,7 +46,7 @@ public class VesselsDAO {
             rs.getInt(usedCapacityColumn),
             rs.getInt(maxCapacityColumn),
             rs.getInt(availableCapacityColumn),
-            rs.getInt(cityDateWithVidIndexColum),
+            rs.getString(cityDateWithVidIndexColum),
             rs.getInt(vidColumn)
           )
         );
@@ -67,7 +67,7 @@ public class VesselsDAO {
     int usedCapacity,
     int maxCapacity,
     int availableCapacity,
-    int cityDateWithVidIndex
+    String cityDateWithVidIndex
   ) {
     //update database
     int vid = (int) CRUDHelper.create(
@@ -91,7 +91,7 @@ public class VesselsDAO {
         Types.INTEGER,
         Types.INTEGER,
         Types.INTEGER,
-        Types.INTEGER,
+        Types.VARCHAR,
       }
     );
     //update cache
@@ -130,7 +130,7 @@ public class VesselsDAO {
         Types.INTEGER,
         Types.INTEGER,
         Types.INTEGER,
-        Types.INTEGER,
+        Types.VARCHAR,
       },
       vidColumn,
       Types.INTEGER,

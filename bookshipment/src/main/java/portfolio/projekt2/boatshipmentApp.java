@@ -1,5 +1,7 @@
 package portfolio.projekt2;
 
+import javafx.application.Application;
+import portfolio.projekt2.controllers.gui;
 import portfolio.projekt2.dao.CityDAO;
 import portfolio.projekt2.dao.CityDateWithVidDAO;
 import portfolio.projekt2.dao.Database;
@@ -27,7 +29,7 @@ public class boatshipmentApp {
     //DataLoader dataLoader = new DataLoader();
   //dataLoader.loadCSV();
     //dataLoader.Updatepaires();
-    printAll();
+    //printAll();
     //deletALl();
     /*  
     testVessels1(10);
@@ -79,6 +81,7 @@ public class boatshipmentApp {
     */
 
     //testCSVreader();
+
   }
 
   public static void deletALl(){

@@ -18,7 +18,7 @@ public class CsvReader {
 
     String delimiter = ",";
 
-    String currentLine;
+    String currentLine = "";
 
     int amoutOfFilds = 0;
 
@@ -31,7 +31,7 @@ public class CsvReader {
         String[] a = currentLine.split(delimiter);
         amoutOfFilds = a.length;
       }
-
+      
       int amountOfRoutes = routesList.size();
 
       String arrayToReturn[][] = new String[amountOfRoutes][amoutOfFilds];

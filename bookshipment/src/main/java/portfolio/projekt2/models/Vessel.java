@@ -80,7 +80,7 @@ public class Vessel {
     return (
       "Vessel [" +
       vesselName.get() +
-      " usedCapacit " + usedCapacity.get() + ", maxCapacity " + maxCapacity.get() + ", availableCapacity " + availableCapacity.get() + ", cityDateWithVid " + cityDateWithVid.get() + " vid " + vid + "]"
+      " usedCapacit " + usedCapacity.get() + ", maxCapacity " + maxCapacity.get() + ", availableCapacity " + availableCapacity.get() + ", cityDateWithVid " + cityDateWithVid.get() + ", vid " + vid + "]"
     );
   }
 }

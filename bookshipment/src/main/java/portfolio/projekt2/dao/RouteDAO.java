@@ -75,7 +75,7 @@ public class RouteDAO {
     int rid = (int) CRUDHelper.create(
       tableName,
       new String[] { "startDid", "endDid", "startCid", "endCid", "rVid" },
-      new Object[] { startDid, endCid, startCid, endCid, rVid },
+      new Object[] { startDid, endDid, startCid, endCid, rVid },
       new int[] {
         Types.INTEGER,
         Types.INTEGER,

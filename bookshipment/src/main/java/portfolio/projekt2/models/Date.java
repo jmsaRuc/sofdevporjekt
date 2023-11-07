@@ -45,7 +45,7 @@ public class Date {
       dateV.get() +
       ", cityVesselWithDidIndex " +
       cityVesselWithDidIndex.get() +
-      " did " +
+      ", did " +
       did +
       "]"
     );

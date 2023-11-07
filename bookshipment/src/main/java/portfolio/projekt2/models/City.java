@@ -38,6 +38,9 @@ public class City {
     return vesselDateWithCidIndex;
   }
 
+ 
+  
+
   @Override
   public String toString() {
     return (
@@ -45,7 +48,7 @@ public class City {
       cityV.get() +
       ", vesselDateWithCidIndex " +
       vesselDateWithCidIndex.get() +
-      " cid " +
+      ", cid " +
       cid +
       "]"
     );

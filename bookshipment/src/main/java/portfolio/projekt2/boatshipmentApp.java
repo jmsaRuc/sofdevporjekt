@@ -1,119 +1,256 @@
 package portfolio.projekt2;
 
+import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+import portfolio.projekt2.controllers.Controller;
 import portfolio.projekt2.dao.CityDAO;
 import portfolio.projekt2.dao.CityDateWithVidDAO;
 import portfolio.projekt2.dao.Database;
 import portfolio.projekt2.dao.DateDAO;
+import portfolio.projekt2.dao.DateVesselWithCidDAO;
 import portfolio.projekt2.dao.RouteDAO;
+import portfolio.projekt2.dao.SearchFunctions;
 import portfolio.projekt2.dao.VesselCityWithDidDAO;
 import portfolio.projekt2.dao.VesselsDAO;
 import portfolio.projekt2.models.City;
 import portfolio.projekt2.models.CityDateWithVid;
+import portfolio.projekt2.models.CsvReader;
+import portfolio.projekt2.models.DataLoader;
 import portfolio.projekt2.models.Date;
+import portfolio.projekt2.models.DateVesselWithCid;
 import portfolio.projekt2.models.Route;
 import portfolio.projekt2.models.Vessel;
 import portfolio.projekt2.models.VesselCityWithDid;
-import portfolio.projekt2.models.DateVesselWithCid;
-import portfolio.projekt2.dao.DateVesselWithCidDAO;
-import portfolio.projekt2.models.CsvReader;
 
-import portfolio.projekt2.models.DataLoader;
-
-public class boatshipmentApp {
-  
+public class boatshipmentApp extends Application {
 
   public static void main(String[] args) {
+    System.setProperty("prism.dirtyopts", "false");
+    launch(args);
+  }
 
-    for (Route route : RouteDAO.getRoutes()) {
-      System.out.print(DateDAO.getDate(route.getStartDid())+", " ); 
-      System.out.print(DateDAO.getDate(route.getEndDid())+", " );
-      System.out.print(CityDAO.getCity(route.getStartCid())+", " );
-      System.out.print(CityDAO.getCity(route.getEndCid())+", " );
-      System.out.print(VesselsDAO.getVessel(route.getRVid())+", " );
-      System.out.println();
-      
+  public BorderPane createInterface(Controller controller) {
+    BorderPane borderPane = new BorderPane();
+
+    VBox vbox = new VBox();
+    vbox.setId("dragTarget");
+    vbox.setSpacing(10);
+
+    HBox hbox = new HBox();
+    hbox.setAlignment(Pos.CENTER);
+
+    Label label = new Label("Connecting SQLite to JavaFX");
+
+    Button exitButton = new Button("X");
+    exitButton.setOnAction(e -> controller.handleExitButtonClicked(e));
+    exitButton.getStyleClass().add("exit-button");
+
+    HBox rightIcons = new HBox(exitButton);
+    rightIcons.setId("right-icons");
+    rightIcons.setAlignment(Pos.CENTER_RIGHT);
+    rightIcons.setSpacing(10);
+    HBox.setHgrow(rightIcons, Priority.ALWAYS);
+
+    hbox.getChildren().addAll(label, rightIcons);
+    hbox.setPadding(new Insets(2, 5, 2, 5));
+
+    // Initialize the TableView with type Route
+    TableView<Route> exampleTable = new TableView<>();
+
+    // Create columns
+    TableColumn<Route, Integer> ridColumn = new TableColumn<>("rid");
+    TableColumn<Route, String> startDidColumn = new TableColumn<>("startDid");
+    TableColumn<Route, String> endDidColumn = new TableColumn<>("endDid");
+    TableColumn<Route, String> startCidColumn = new TableColumn<>("startCid");
+    TableColumn<Route, String> endCidColumn = new TableColumn<>("endCid");
+    TableColumn<Route, String> rVidColumn = new TableColumn<>("rVid");
+
+    // Add columns to the table
+    exampleTable
+      .getColumns()
+      .addAll(
+        ridColumn,
+        startDidColumn,
+        endDidColumn,
+        startCidColumn,
+        endCidColumn,
+        rVidColumn
+      );
+
+    // Set the column resize policy
+    exampleTable.setColumnResizePolicy(
+      TableView.CONSTRAINED_RESIZE_POLICY_FLEX_LAST_COLUMN
+    );
+
+    Button searchButton = new Button("Search");
+    searchButton.setOnAction(e -> controller.Search(e));
+    searchButton.getStyleClass().add("add-button");
+
+    Button editButton = new Button("Edit");
+    editButton.getStyleClass().add("edit-button");
+
+    Button deleteButton = new Button("Delete");
+    deleteButton.getStyleClass().add("delete-button");
+
+    // Pass the TableView and its columns to the controller
+    controller.exampleTable = exampleTable;
+    controller.ridColumn = ridColumn;
+    controller.startDidColumn = startDidColumn;
+    controller.endDidColumn = endDidColumn;
+    controller.startCidColumn = startCidColumn;
+    controller.endCidColumn = endCidColumn;
+    controller.rVidColumn = rVidColumn;
+    controller.editButton = editButton;
+    controller.deleteButton = deleteButton;
+
+    // Now that the controller has references to the table and columns, call initialize
+
+    HBox buttonBox = new HBox(searchButton, editButton, deleteButton);
+    buttonBox.setAlignment(Pos.CENTER_RIGHT);
+    buttonBox.setPrefHeight(40);
+    buttonBox.setSpacing(20);
+
+    vbox.getChildren().addAll(hbox, exampleTable, buttonBox);
+
+    borderPane.setCenter(vbox);
+
+    return borderPane;
+  }
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    System.out.println("Starting Boatshipment");
+    //load();
+    //System.out.println("CSV loaded");
+    //printAll();
+    if (Database.isOK()) {
+      Controller controller = new Controller();
+      primaryStage.setTitle("Boatshipment");
+      primaryStage.setScene(new Scene(createInterface(controller), 800, 600));
+      primaryStage.initStyle(StageStyle.DECORATED);
+      primaryStage.show();
+    } else {
+      System.out.println("Database is not OK");
+      Platform.exit();
     }
+  }
 
-    /* 
-    Vessel vessel = VesselsDAO.getVessel(1).get();
+  /*  
+    String startdate= "";
+
+    String endDate= "";
+
+    String startcity = "Yokohama";
+
+    String endcity = "";
+    SearchFunctions sc = new SearchFunctions();
+    for(Route route : sc.Search(startdate, endDate, startcity, endcity, 10)){
+      System.out.println(route);
+      System.out.print(" Startdate: "+ DateDAO.getDate(route.getStartDid()).get().getDateV()); 
+      System.out.print(" Enddate: "+ DateDAO.getDate(route.getEndDid()).get().getDateV());
+      System.out.print(" Startcity: "+ CityDAO.getCity(route.getStartCid()).get().getCityV());
+      System.out.print(" Endcity: "+ CityDAO.getCity(route.getEndCid()).get().getCityV());
+      System.out.println(" Vessel: "+ VesselsDAO.getVessel(route.getRVid()).get().getVesselName()+" "+ VesselsDAO.getVessel(route.getRVid()).get().getAvailableCapacity());
+    }
+      
+     */
+
+  /* 
+    Vessel vessel = VesselsDAO.getVessel(5).get();
       System.out.println(vessel);
-      for(String s : vessel.getCityDateWithVidIndex().split(",")){
-        System.out.println(s);
+      for(String s : vessel.getCityDateWithVidIndex().split(".")){
+        
         System.out.println(CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)));
          int temp = CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)).get().getDateWithVid();
+         int temp2 = CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)).get().getCityWithVid();
          System.out.println(DateDAO.getDate(temp)); 
+         System.out.println(CityDAO.getCity(temp2));
+         
        
         
 
       }
+      
       */
-    
 
-    /* 
-    DataLoader dataLoader = new DataLoader();
-    dataLoader.loadCSV();
+  //DataLoader dataLoader = new DataLoader();
+  //dataLoader.loadCSV();
 
-    
-    dataLoader.Updatepaires();
-    
-  
-    printAll();
-      */
-    
-    //deletALl();
-    /*  
+  //dataLoader.Updatepaires();
+
+  //DateDAO.getDates().forEach(System.out::println);
+  //CityDAO.getCitys().forEach(System.out::println);
+
+  //printAll();
+
+  //deletALl();
+  /*  
     testVessels1(10);
     deletAllVessesls();
     testVessels2(10);
     deletAllVessesls();
      */
-     //testVessels2(10);
-     //testDates2(10);
-     //testCitys2(10);
-     //testRouts2(10);
-    /* 
+  //testVessels2(10);
+  //testDates2(10);
+  //testCitys2(10);
+  //testRouts2(10);
+  /* 
     testDates1(10);
     deleteAllDates();
     testDates2(10);
     deleteAllDates();
     */
-    /* 
+  /* 
     testCitys1(10);
     deleteAllCitys();
     testCitys2(10);
     deleteAllCitys();
      */
-    /* 
+  /* 
     testRouts1(10);
     deleteAllRouts();
     testRouts2(10);
     deleteAllRouts();
     */
 
-    /*
+  /*
     testCityDateWithVid1(10);
     deleteAllCityDateWithVid();
     testCityDateWithVid2(10);
     deleteAllCityDateWithVid();
     */
-    /* 
+  /* 
     tetsVesselCityWithDid1(10);
     deleteAllVesselCityWithDid();
     tetsVesselCityWithDid2(10);
     deleteAllVesselCityWithDid();
     */
 
-    /*
+  /*
     testDateVesselWithCid1(10);
     deleteAllDateVesselWithCid();
     testDateVesselWithCid2(10);
     deleteAllDateVesselWithCid();
     */
 
-    //testCSVreader();
+  //testCSVreader();
+  public static void load() {
+    DataLoader dataLoader = new DataLoader();
+    dataLoader.loadCSV();
+    dataLoader.Updatepaires();
   }
 
-  public static void deletALl(){
+  public static void deletALl() {
     deleteAllDates();
     deleteAllCitys();
     deleteAllRouts();
@@ -123,7 +260,7 @@ public class boatshipmentApp {
     deletAllVessesls();
   }
 
-  public static void printAll(){
+  public static void printAll() {
     VesselsDAO.getVessels().forEach(System.out::println);
     DateDAO.getDates().forEach(System.out::println);
     CityDAO.getCitys().forEach(System.out::println);
@@ -233,7 +370,6 @@ public class boatshipmentApp {
   }
 
   public static void deletAllVessesls() {
-    VesselsDAO.getVessels().forEach(System.out::println);
     while (
       VesselsDAO.getVessels() == null || VesselsDAO.getVessels().size() > 0
     ) {
@@ -313,7 +449,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllDates() {
-    DateDAO.getDates().forEach(System.out::println);
     while (DateDAO.getDates() == null || DateDAO.getDates().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test vdate delete all:");
@@ -389,7 +524,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllCitys() {
-    CityDAO.getCitys().forEach(System.out::println);
     while (CityDAO.getCitys() == null || CityDAO.getCitys().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test city delete all:");
@@ -477,7 +611,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllRouts() {
-    RouteDAO.getRoutes().forEach(System.out::println);
     while (RouteDAO.getRoutes() == null || RouteDAO.getRoutes().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test route delete all:");
@@ -487,7 +620,6 @@ public class boatshipmentApp {
         RouteDAO.getRoutes().forEach(route -> RouteDAO.delete(route.getRid()));
       } catch (Exception ex) {}
     }
-
     RouteDAO.getRoutes().forEach(System.out::println);
   }
 
@@ -593,7 +725,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllCityDateWithVid() {
-    CityDateWithVidDAO.getCityDateWithVids().forEach(System.out::println);
     while (
       CityDateWithVidDAO.getCityDateWithVids() == null ||
       CityDateWithVidDAO.getCityDateWithVids().size() > 0
@@ -718,7 +849,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllVesselCityWithDid() {
-    VesselCityWithDidDAO.getVesselCityWithDids().forEach(System.out::println);
     while (
       VesselCityWithDidDAO.getVesselCityWithDids() == null ||
       VesselCityWithDidDAO.getVesselCityWithDids().size() > 0
@@ -762,11 +892,7 @@ public class boatshipmentApp {
       System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n));
       if (!Database.isOK()) {
         System.out.println(
-          "error at test DateVesselWithCid:" +
-          " " +
-          i +
-          " " +
-          "after inserted"
+          "error at test DateVesselWithCid:" + " " + i + " " + "after inserted"
         );
         System.exit(1);
       }
@@ -808,7 +934,7 @@ public class boatshipmentApp {
       DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(
         1 + i,
         1 + i,
-        1+ i,
+        1 + i,
         n + i
       );
       DateVesselWithCidDAO.instertDateVesselWithCid(
@@ -819,11 +945,7 @@ public class boatshipmentApp {
       System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n + i));
       if (!Database.isOK()) {
         System.out.println(
-          "error at test DateVesselWithCid:" +
-          " " +
-          i +
-          " " +
-          "after inserted"
+          "error at test DateVesselWithCid:" + " " + i + " " + "after inserted"
         );
         System.exit(1);
       }
@@ -835,7 +957,7 @@ public class boatshipmentApp {
       DateVesselWithCid dateVesselWithCid2 = new DateVesselWithCid(
         1 + 200 + i,
         1 + i,
-        1+ i,
+        1 + i,
         n + i
       );
       DateVesselWithCidDAO.udpate(dateVesselWithCid2);
@@ -852,7 +974,6 @@ public class boatshipmentApp {
   }
 
   public static void deleteAllDateVesselWithCid() {
-    DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
     while (
       DateVesselWithCidDAO.getDateVesselWithCids() == null ||
       DateVesselWithCidDAO.getDateVesselWithCids().size() > 0
@@ -873,15 +994,14 @@ public class boatshipmentApp {
     DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
   }
 
-  public static void testCSVreader(){
+  public static void testCSVreader() {
     String[][] routes = CsvReader.ReadRoutes();
 
-    for (int i = 0; i < routes.length; i++){
-      for (int j = 0; j < routes[i].length; j++){
+    for (int i = 0; i < routes.length; i++) {
+      for (int j = 0; j < routes[i].length; j++) {
         System.out.print(routes[i][j] + " ");
       }
       System.out.println();
     }
-   }
-  
+  }
 }

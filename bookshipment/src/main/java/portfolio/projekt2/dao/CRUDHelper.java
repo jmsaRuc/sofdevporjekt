@@ -95,6 +95,7 @@ public class CRUDHelper {
           Level.SEVERE,
           LocalDateTime.now() + ": Could not add to database update"
         );
+        System.out.println("wup wup");
       return -1;
     }
   }

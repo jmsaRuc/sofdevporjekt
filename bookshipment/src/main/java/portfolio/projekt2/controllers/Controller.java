@@ -3,17 +3,14 @@ package portfolio.projekt2.controllers;
 import java.util.Optional;
 import java.util.function.UnaryOperator;
 import javafx.application.Platform;
-import javafx.beans.Observable;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
-import portfolio.projekt2.boatshipmentApp;
 import portfolio.projekt2.dao.*;
 import portfolio.projekt2.models.*;
 
@@ -27,15 +24,13 @@ public class Controller {
   public TableColumn<Route, String> endCidColumn;
   public TableColumn<Route, String> rVidColumn;
 
-  public Button editButton;
-  public Button deleteButton;
+  public Button bookButton;
+  public Button searchButton;
 
-  public void initialize(String startDid, String endDid, String startCid, String endCid, int cargoAmount) {
-    SearchFunctions searchFunctions = new SearchFunctions();
-    exampleTable.setItems(
-      searchFunctions.Search(startDid, endDid, startCid, endCid, cargoAmount)
-    );
+  public String[] savedSSearcParams = new String[4];
+  public int savedISearchParams;
 
+  public void initialize() {
     ridColumn.setCellValueFactory(new PropertyValueFactory<>("rid"));
     startDidColumn.setCellValueFactory(cellData -> {
       Route route = cellData.getValue();
@@ -97,12 +92,7 @@ public class Controller {
       }
     });
 
-    editButton
-      .disableProperty()
-      .bind(
-        Bindings.isEmpty(exampleTable.getSelectionModel().getSelectedItems())
-      );
-    deleteButton
+    bookButton
       .disableProperty()
       .bind(
         Bindings.isEmpty(exampleTable.getSelectionModel().getSelectedItems())
@@ -115,29 +105,96 @@ public class Controller {
   }
 
   public void Search(ActionEvent event) {
-    
-    Dialog<Route> searchDialog = createSearchDialog(null);
-    Optional<Route> res = searchDialog.showAndWait();
-    res.ifPresent(
-      route -> {
-        initialize(null, null, null, null, 0);
-      }
-    );
-      
+    SearchFunctions searchFunctions = new SearchFunctions();
+    Dialog<String> dialog = createSearchDialog();
+    Optional<String> result = dialog.showAndWait();
+
+    if (result.isPresent()) {
+      String[] a = result.get().split(",");
+      exampleTable.setItems(
+        searchFunctions.Search(a[0], a[1], a[2], a[3], Integer.parseInt(a[4]))
+      );
+
+      savedSSearcParams = new String[] { a[0], a[1], a[2], a[3] };
+      savedISearchParams = Integer.parseInt(a[4]);
+    }
+
+    exampleTable.refresh();
     event.consume();
   }
 
-  
-
-  private Dialog<Route> createSearchDialog(Route route) {
-    //create the dialog itself
-    Dialog<Route> dialog = new Dialog<>();
-    dialog.setTitle("Add Dialog");
-    if (route == null) {
-      dialog.setHeaderText("Write in the filds to search for a voyage with aviabel space"); 
+  public void book(ActionEvent event) {
+    if (exampleTable.getSelectionModel().getSelectedItems().size() != 1) {
+      System.err.println("Erro when booking: more than one row selected");
     } else {
-      dialog.setHeaderText("Edit a database record");
+      Route route = exampleTable.getSelectionModel().getSelectedItem();
+
+      Vessel vessel = VesselsDAO.getVessel(route.getRVid()).get();
+
+      Dialog<Vessel> dialog = createVesselDialog(vessel);
+      Optional<Vessel> result = dialog.showAndWait();
+      result.ifPresent(newVessel -> {
+        if (newVessel.getCityDateWithVidIndex().equals("s")) {
+          Vessel newVessel1 = new Vessel(
+            newVessel.getVesselName(),
+            newVessel.getUsedCapacity(),
+            newVessel.getMaxCapacity(),
+            newVessel.getAvailableCapacity(),
+            newVessel.getCityDateWithVidIndex(),
+            vessel.getVid()
+          );
+          VesselsDAO.update(newVessel1);
+        } else {
+          int id = 1 + VesselsDAO.getVessels().size();
+          Vessel newVessel2 = new Vessel(
+            newVessel.getVesselName(),
+            newVessel.getUsedCapacity(),
+            newVessel.getMaxCapacity(),
+            newVessel.getAvailableCapacity(),
+            "s",
+            id
+          );
+          VesselsDAO.insertVessel(
+            newVessel2.getVesselName(),
+            newVessel2.getUsedCapacity(),
+            newVessel2.getMaxCapacity(),
+            newVessel2.getAvailableCapacity(),
+            newVessel2.getCityDateWithVidIndex()
+          );
+
+          Route newRoute = new Route(
+            route.getStartDid(),
+            route.getEndDid(),
+            route.getStartCid(),
+            route.getEndCid(),
+            id,
+            route.getRid()
+          );
+          RouteDAO.update(newRoute);
+        }
+      });
     }
+
+    exampleTable.setItems(
+      new SearchFunctions()
+        .Search(
+          savedSSearcParams[0],
+          savedSSearcParams[1],
+          savedSSearcParams[2],
+          savedSSearcParams[3],
+          savedISearchParams
+        )
+    );
+
+    exampleTable.refresh();
+    event.consume();
+  }
+
+  private Dialog<String> createSearchDialog() {
+    //create the dialog itself
+
+    Dialog<String> dialog = new Dialog<>();
+    dialog.setTitle("Add Dialog");
     dialog
       .getDialogPane()
       .getButtonTypes()
@@ -158,8 +215,8 @@ public class Controller {
     TextField ArrivalCity = new TextField();
     ArrivalCity.setPromptText("Arrival City");
 
-    TextField AmountOfGargo = new TextField();
-    AmountOfGargo.setPromptText("Amount Of Gargo");
+    TextField AmountOfGargoTo = new TextField();
+    AmountOfGargoTo.setPromptText("Amount Of Gargo");
 
     grid.add(new Label("Departure Date:"), 0, 0);
     grid.add(DepartureDate, 1, 0);
@@ -170,7 +227,7 @@ public class Controller {
     grid.add(new Label("Arrival City:"), 0, 3);
     grid.add(ArrivalCity, 1, 3);
     grid.add(new Label("Amount Of Gargo:"), 0, 4);
-    grid.add(AmountOfGargo, 1, 4);
+    grid.add(AmountOfGargoTo, 1, 4);
     dialog.getDialogPane().setContent(grid);
 
     //disable the OK button if the fields haven't been filled in
@@ -179,11 +236,10 @@ public class Controller {
       .lookupButton(ButtonType.OK)
       .disableProperty()
       .bind(
-        Bindings
-          .createBooleanBinding(
-            () -> AmountOfGargo.getText().isEmpty(),
-            AmountOfGargo.textProperty()
-          )
+        Bindings.createBooleanBinding(
+          () -> AmountOfGargoTo.getText().isEmpty(),
+          AmountOfGargoTo.textProperty()
+        )
       );
 
     //ensure only numeric input (integers) in age text field
@@ -199,21 +255,115 @@ public class Controller {
         return change;
       }
     };
-    AmountOfGargo.setTextFormatter(
+    AmountOfGargoTo.setTextFormatter(
       new TextFormatter<Object>(numberValidationFormatter)
     );
 
     //make sure the dialog returns a Route if it's available
     dialog.setResultConverter(dialogButton -> {
       if (dialogButton == ButtonType.OK) {
+        return new String(
+          DepartureDate.getText() +
+          "," +
+          ArrivalDate.getText() +
+          "," +
+          DepartureCity.getText() +
+          "," +
+          ArrivalCity.getText() +
+          "," +
+          AmountOfGargoTo.getText()
+        );
+      }
+      return null;
+    });
+
+    //if a record is supplied, use it to fill in the fields automatically
+
+    return dialog;
+  }
+
+  private Dialog<Vessel> createVesselDialog(Vessel vessel) {
+    //create the dialog itself
+    Dialog<Vessel> dialog = new Dialog<>();
+    dialog.setTitle("Add Dialog");
+    dialog.setHeaderText("Book Selected Voyage, write amount of cargo");
+    dialog
+      .getDialogPane()
+      .getButtonTypes()
+      .addAll(ButtonType.OK, ButtonType.CANCEL);
+    Stage dialogWindow = (Stage) dialog.getDialogPane().getScene().getWindow();
+
+    //create the form for the user to fill in
+    GridPane grid = new GridPane();
+    grid.setHgap(10);
+    grid.setVgap(10);
+    grid.setPadding(new Insets(20, 150, 10, 10));
+    TextField AmountOfGargoTo = new TextField();
+    AmountOfGargoTo.setPromptText("Amount of cargo to book");
+
+    grid.add(new Label("Amount of cargo to book:"), 0, 0);
+    grid.add(AmountOfGargoTo, 1, 0);
+    dialog.getDialogPane().setContent(grid);
+    //disable the OK button if the fields haven't been filled in
+
+    dialog
+      .getDialogPane()
+      .lookupButton(ButtonType.OK)
+      .disableProperty()
+      .bind(
+        Bindings
+          .createBooleanBinding(
+            () -> AmountOfGargoTo.getText().trim().isEmpty(),
+            AmountOfGargoTo.textProperty()
+          )
+          .or(
+            Bindings.createBooleanBinding(
+              () ->
+                Integer.parseInt(AmountOfGargoTo.getText().trim() + "0") >
+                vessel.getAvailableCapacity() *
+                10,
+              AmountOfGargoTo.textProperty()
+            )
+          )
+      );
+
+    // make s
+
+    //ensure only numeric input (integers) in age text field
+    UnaryOperator<TextFormatter.Change> numberValidationFormatter = change -> {
+      if (change.getText().matches("\\d+") || change.getText().equals("")) {
+        return change; //if change is a number or if a deletion is being made
+      } else {
+        change.setText(""); //else make no change
+        change.setRange( //don't remove any selected text either.
+          change.getRangeStart(),
+          change.getRangeStart()
+        );
+        return change;
+      }
+    };
+    AmountOfGargoTo.setTextFormatter(
+      new TextFormatter<Object>(numberValidationFormatter)
+    );
+    //make sure the dialog returns a Vessel if it's available
+
+    dialog.setResultConverter(dialogButton -> {
+      if (dialogButton == ButtonType.OK) {
         int id = -1;
-        if (route != null) id = route.getRid();
-        return new Route(
-          route.getStartDid(),
-          route.getEndDid(),
-          route.getStartCid(),
-          route.getEndCid(),
-          route.getRVid(),
+        if (
+          vessel != null &&
+          Integer.parseInt(AmountOfGargoTo.getText()) >
+          vessel.getAvailableCapacity()
+        ) id = vessel.getVid();
+
+        return new Vessel(
+          vessel.getVesselName(),
+          vessel.getUsedCapacity() +
+          Integer.parseInt(AmountOfGargoTo.getText()),
+          vessel.getMaxCapacity(),
+          vessel.getAvailableCapacity() -
+          Integer.parseInt(AmountOfGargoTo.getText()),
+          vessel.getCityDateWithVidIndex(),
           id
         );
       }
@@ -221,19 +371,6 @@ public class Controller {
     });
 
     //if a record is supplied, use it to fill in the fields automatically
-    if (route != null) {
-      DepartureDate.setText(
-        DateDAO.getDate(route.getStartDid()).get().getDateV()
-      );
-      ArrivalDate.setText(DateDAO.getDate(route.getEndDid()).get().getDateV());
-      DepartureCity.setText(
-        CityDAO.getCity(route.getStartCid()).get().getCityV()
-      );
-      ArrivalCity.setText(CityDAO.getCity(route.getEndCid()).get().getCityV());
-      AmountOfGargo.setText(
-        VesselsDAO.getVessel(route.getRVid()).get().getAvailableCapacity() + ""
-      );
-    }
 
     return dialog;
   }

@@ -2,7 +2,6 @@ package portfolio.projekt2.models;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import portfolio.projekt2.dao.VesselsDAO;
 
 public class VesselCityWithDid {
 

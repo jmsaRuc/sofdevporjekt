@@ -43,6 +43,7 @@ public class CsvReader {
           arrayToReturn[i][j] = tempArray[j];
         }
       }
+      br.close();
       return arrayToReturn;
 
     }catch(Exception e){
@@ -50,6 +51,7 @@ public class CsvReader {
       
       return null;
     }
+    
   }
 
   public static HashSet<String> ReadSpecific(int n){
@@ -63,6 +65,7 @@ public class CsvReader {
         a[n] = a[n].replaceAll("\'", "");
         hashSet.add(a[n]);
       }
+      in.close();
     }catch(Exception e){
       System.out.println(e);
     }

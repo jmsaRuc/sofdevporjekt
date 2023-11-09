@@ -2,12 +2,10 @@ package portfolio.projekt2.models;
 
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Random;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import portfolio.projekt2.boatshipmentApp;
 import portfolio.projekt2.dao.*;
-import portfolio.projekt2.models.*;
 
 public class DataLoader {
 
@@ -15,6 +13,8 @@ public class DataLoader {
   private final HashSet<String> vesSpicific;
   private final HashSet<String> daSpicific;
   private final HashSet<String> cySpicific;
+  //private final HashSet<String> daEndSpicific;
+  //private final HashSet<String> cidEndSpicific;
 
   private final ObservableList<Route> routes;
 
@@ -22,7 +22,9 @@ public class DataLoader {
     this.csvArray = getCsvArray();
     this.vesSpicific = getCsvSpicific(2);
     this.daSpicific = getCsvSpicific(0);
+    //this.daEndSpicific = getCsvSpicific(1);
     this.cySpicific = getCsvSpicific(3);
+    //this.cidEndSpicific = getCsvSpicific(4);
     this.routes = RouteDAO.getRoutes();
   }
 
@@ -41,13 +43,14 @@ public class DataLoader {
   }
 
   public void loadCSV() {
+    
     checkCSV();
     int Couldamout = 5;
 
-    Integer vesselMaxCapacity;
-    Integer vesselMaxCapacityTemp;
-    Integer vesselUsedCapacity;
-    Integer vesselAvailableCapacity;
+    Integer vesselMaxCapacity = 0;
+    Integer vesselMaxCapacityTemp = 0;
+    Integer vesselUsedCapacity = 0;
+    Integer vesselAvailableCapacity = 0;
 
     for (String ve : this.vesSpicific) {
       vesselMaxCapacityTemp = random_int(100, 1000);
@@ -71,12 +74,11 @@ public class DataLoader {
           newVessel.getAvailableCapacity(),
           newVessel.getCityDateWithVidIndex()
         );
-      } else {
-        newVessel = null;
-      }
+      } 
     }
 
     for (String da : this.daSpicific) {
+      
       Date newDate = new Date(da, "", 0);
 
       if (checkifDateAllredyEx(newDate)) {
@@ -84,11 +86,21 @@ public class DataLoader {
           newDate.getDateV(),
           newDate.getCityVesselWithDidIndex()
         );
-      } else {
-        newDate = null;
       }
     }
+    /* 
+    for (String da : this.daEndSpicific){
+      Date newDate = new Date(da, "", 0);
 
+      if (checkifDateAllredyEx(newDate)) {
+        System.out.println(da);
+        DateDAO.insertDate(
+          newDate.getDateV(),
+          newDate.getCityVesselWithDidIndex()
+        );
+      }
+    }
+*/
     for (String ci : this.cySpicific) {
       City newCity = new City(ci, "", 0);
       if (checkifCityAllredyEx(newCity)) {
@@ -96,11 +108,20 @@ public class DataLoader {
           newCity.getCityV(),
           newCity.getVesselDateWithCidIndex()
         );
-      } else {
-        newCity = null;
-      }
+      } 
     }
-
+    /* 
+    for (String ci : this.cidEndSpicific) {
+      City newCity = new City(ci, "", 0);
+      if (checkifCityAllredyEx(newCity)) {
+        System.out.println(ci);
+        CityDAO.insertCity(
+          newCity.getCityV(),
+          newCity.getVesselDateWithCidIndex()
+        );
+      } 
+    }
+*/
     for (int i = 0; i < this.csvArray.length; i++) {
       int[][] tempArray = new int[this.csvArray.length][Couldamout];
 
@@ -146,9 +167,9 @@ public class DataLoader {
           newRoute.getEndCid(),
           newRoute.getRVid()
         );
-      } else {
-        newRoute = null;
-      }
+      }else{
+        System.out.println(tempArray[i][0] + " " + tempArray[i][1] + " " + tempArray[i][2] + " " + tempArray[i][3] + " " + tempArray[i][4] );
+      } 
     }
   }
 

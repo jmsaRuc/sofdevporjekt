@@ -1,14 +1,14 @@
 package portfolio.projekt2;
 
+import java.util.Comparator;
+
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -19,7 +19,6 @@ import portfolio.projekt2.dao.Database;
 import portfolio.projekt2.dao.DateDAO;
 import portfolio.projekt2.dao.DateVesselWithCidDAO;
 import portfolio.projekt2.dao.RouteDAO;
-import portfolio.projekt2.dao.SearchFunctions;
 import portfolio.projekt2.dao.VesselCityWithDidDAO;
 import portfolio.projekt2.dao.VesselsDAO;
 import portfolio.projekt2.models.City;
@@ -35,7 +34,6 @@ import portfolio.projekt2.models.VesselCityWithDid;
 public class boatshipmentApp extends Application {
 
   public static void main(String[] args) {
-    System.setProperty("prism.dirtyopts", "false");
     launch(args);
   }
 
@@ -53,7 +51,6 @@ public class boatshipmentApp extends Application {
 
     Button exitButton = new Button("X");
     exitButton.setOnAction(e -> controller.handleExitButtonClicked(e));
-    exitButton.getStyleClass().add("exit-button");
 
     HBox rightIcons = new HBox(exitButton);
     rightIcons.setId("right-icons");
@@ -94,13 +91,14 @@ public class boatshipmentApp extends Application {
 
     Button searchButton = new Button("Search");
     searchButton.setOnAction(e -> controller.Search(e));
-    searchButton.getStyleClass().add("add-button");
+   
 
-    Button editButton = new Button("Edit");
-    editButton.getStyleClass().add("edit-button");
+    Button bookButton = new Button("Book Shipment");
+    bookButton.setOnAction(e -> controller.book(e));
+   
 
-    Button deleteButton = new Button("Delete");
-    deleteButton.getStyleClass().add("delete-button");
+
+    
 
     // Pass the TableView and its columns to the controller
     controller.exampleTable = exampleTable;
@@ -110,12 +108,11 @@ public class boatshipmentApp extends Application {
     controller.startCidColumn = startCidColumn;
     controller.endCidColumn = endCidColumn;
     controller.rVidColumn = rVidColumn;
-    controller.editButton = editButton;
-    controller.deleteButton = deleteButton;
+    controller.bookButton = bookButton;
 
     // Now that the controller has references to the table and columns, call initialize
 
-    HBox buttonBox = new HBox(searchButton, editButton, deleteButton);
+    HBox buttonBox = new HBox(searchButton, bookButton);
     buttonBox.setAlignment(Pos.CENTER_RIGHT);
     buttonBox.setPrefHeight(40);
     buttonBox.setSpacing(20);
@@ -123,20 +120,30 @@ public class boatshipmentApp extends Application {
     vbox.getChildren().addAll(hbox, exampleTable, buttonBox);
 
     borderPane.setCenter(vbox);
-
+    controller.initialize();
+    //set the exampleTable to sort from earlyest date to latest date
+    controller.exampleTable.setSortPolicy( tv -> {
+      Comparator<Route> c = (r1, r2) -> {
+        return r1.getStartDid() - r2.getStartDid();
+      };
+      FXCollections.sort(controller.exampleTable.getItems(), c);
+      return true;
+    });
     return borderPane;
   }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
     System.out.println("Starting Boatshipment");
+    //deletALl();
+    System.out.println("Database cleared");
     //load();
-    //System.out.println("CSV loaded");
+    System.out.println("CSV loaded");
     //printAll();
     if (Database.isOK()) {
       Controller controller = new Controller();
       primaryStage.setTitle("Boatshipment");
-      primaryStage.setScene(new Scene(createInterface(controller), 800, 600));
+      primaryStage.setScene(new Scene(createInterface(controller), 1400, 500));
       primaryStage.initStyle(StageStyle.DECORATED);
       primaryStage.show();
     } else {
@@ -244,6 +251,8 @@ public class boatshipmentApp extends Application {
     */
 
   //testCSVreader();
+
+  
   public static void load() {
     DataLoader dataLoader = new DataLoader();
     dataLoader.loadCSV();
@@ -1004,4 +1013,5 @@ public class boatshipmentApp extends Application {
       System.out.println();
     }
   }
+  
 }

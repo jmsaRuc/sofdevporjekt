@@ -9,7 +9,7 @@ To run the application, you need to have Java 20. You can download it from [here
 
 ## projekt struckture:
 
-```json
+```txt
 📦bookshipment
  ┣ 📂src
  ┃ ┣ 📂main

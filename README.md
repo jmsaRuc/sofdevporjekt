@@ -9,6 +9,7 @@ To run the application, you need to have Java 20. You can download it from [here
 
 ## projekt struckture:
 
+```json
 📦bookshipment
  ┣ 📂src
  ┃ ┣ 📂main
@@ -99,7 +100,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┗ 📜inputFiles.lst
  ┃ ┗ 📂test-classes
  ┗ 📜pom.xml
-
+```
  ## Date base Tabels: 
 
 database file is located in src/main/resources/portfolio/projekt2/database/boatshipmentDatabase.db

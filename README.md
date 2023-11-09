@@ -16,7 +16,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┣ 📂portfolio
  ┃ ┃ ┃ ┃ ┗ 📂projekt2
  ┃ ┃ ┃ ┃ ┃ ┣ 📂controllers
- ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜gui.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Controller.java
  ┃ ┃ ┃ ┃ ┃ ┣ 📂dao
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDAO.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVidDAO.java
@@ -25,6 +25,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DateDAO.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DateVesselWithCidDAO.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜RouteDAO.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜SearchFunctions.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜VesselCityWithDidDAO.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜VesselsDAO.java
  ┃ ┃ ┃ ┃ ┃ ┣ 📂models
@@ -37,13 +38,13 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Route.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜Vessel.java
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜VesselCityWithDid.java
- ┃ ┃ ┃ ┃ ┃ ┗ 📜boatshipmentApp.java
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜boatshipmentApp.java -------------------------------------> main class
  ┃ ┃ ┃ ┗ 📜module-info.java
  ┃ ┃ ┗ 📂resources
  ┃ ┃ ┃ ┗ 📂portfolio
  ┃ ┃ ┃ ┃ ┗ 📂projekt2
  ┃ ┃ ┃ ┃ ┃ ┣ 📂database
- ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜boatshipmentDatabase.db
+ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜boatshipmentDatabase.db 
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜eksDatabase.db
  ┃ ┃ ┃ ┃ ┃ ┗ 📂routes
  ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜routes1.csv
@@ -54,7 +55,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┣ 📂portfolio
  ┃ ┃ ┃ ┗ 📂projekt2
  ┃ ┃ ┃ ┃ ┣ 📂controllers
- ┃ ┃ ┃ ┃ ┃ ┗ 📜gui.class
+ ┃ ┃ ┃ ┃ ┃ ┗ 📜Controller.class
  ┃ ┃ ┃ ┃ ┣ 📂dao
  ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDAO.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜CityDateWithVidDAO.class
@@ -63,6 +64,7 @@ To run the application, you need to have Java 20. You can download it from [here
  ┃ ┃ ┃ ┃ ┃ ┣ 📜DateDAO.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜DateVesselWithCidDAO.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜RouteDAO.class
+ ┃ ┃ ┃ ┃ ┃ ┣ 📜SearchFunctions.class
  ┃ ┃ ┃ ┃ ┃ ┣ 📜VesselCityWithDidDAO.class
  ┃ ┃ ┃ ┃ ┃ ┗ 📜VesselsDAO.class
  ┃ ┃ ┃ ┃ ┣ 📂database

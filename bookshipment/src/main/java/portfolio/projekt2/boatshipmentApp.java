@@ -135,11 +135,11 @@ public class boatshipmentApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     System.out.println("Starting Boatshipment");
-    deletALl();
-    System.out.println("Database cleared");
-    load();
-    System.out.println("CSV loaded");
-    printAll();
+   // deletALl();
+    //System.out.println("Database cleared");
+    //load();
+    //System.out.println("CSV loaded");
+   // printAll();
     if (Database.isOK()) {
       Controller controller = new Controller();
       primaryStage.setTitle("Boatshipment");

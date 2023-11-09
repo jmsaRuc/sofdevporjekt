@@ -47,7 +47,7 @@ public class boatshipmentApp extends Application {
     HBox hbox = new HBox();
     hbox.setAlignment(Pos.CENTER);
 
-    Label label = new Label("Connecting SQLite to JavaFX");
+    Label label = new Label("Boat Shipment Aplication");
 
     Button exitButton = new Button("X");
     exitButton.setOnAction(e -> controller.handleExitButtonClicked(e));
@@ -65,12 +65,12 @@ public class boatshipmentApp extends Application {
     TableView<Route> exampleTable = new TableView<>();
 
     // Create columns
-    TableColumn<Route, Integer> ridColumn = new TableColumn<>("rid");
-    TableColumn<Route, String> startDidColumn = new TableColumn<>("startDid");
-    TableColumn<Route, String> endDidColumn = new TableColumn<>("endDid");
-    TableColumn<Route, String> startCidColumn = new TableColumn<>("startCid");
-    TableColumn<Route, String> endCidColumn = new TableColumn<>("endCid");
-    TableColumn<Route, String> rVidColumn = new TableColumn<>("rVid");
+    TableColumn<Route, Integer> ridColumn = new TableColumn<>("ID");
+    TableColumn<Route, String> startDidColumn = new TableColumn<>("Departure Date");
+    TableColumn<Route, String> endDidColumn = new TableColumn<>("Arrival Date");
+    TableColumn<Route, String> startCidColumn = new TableColumn<>("Departure City");
+    TableColumn<Route, String> endCidColumn = new TableColumn<>("Arrival City");
+    TableColumn<Route, String> rVidColumn = new TableColumn<>("Vessel");
 
     // Add columns to the table
     exampleTable
@@ -135,11 +135,11 @@ public class boatshipmentApp extends Application {
   @Override
   public void start(Stage primaryStage) throws Exception {
     System.out.println("Starting Boatshipment");
-    //deletALl();
+    deletALl();
     System.out.println("Database cleared");
-    //load();
+    load();
     System.out.println("CSV loaded");
-    //printAll();
+    printAll();
     if (Database.isOK()) {
       Controller controller = new Controller();
       primaryStage.setTitle("Boatshipment");

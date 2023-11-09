@@ -194,7 +194,7 @@ public class Controller {
     //create the dialog itself
 
     Dialog<String> dialog = new Dialog<>();
-    dialog.setTitle("Add Dialog");
+    dialog.setTitle("Search");
     dialog
       .getDialogPane()
       .getButtonTypes()
@@ -285,7 +285,7 @@ public class Controller {
   private Dialog<Vessel> createVesselDialog(Vessel vessel) {
     //create the dialog itself
     Dialog<Vessel> dialog = new Dialog<>();
-    dialog.setTitle("Add Dialog");
+    dialog.setTitle("Book Voyage");
     dialog.setHeaderText("Book Selected Voyage, write amount of cargo");
     dialog
       .getDialogPane()
@@ -299,7 +299,7 @@ public class Controller {
     grid.setVgap(10);
     grid.setPadding(new Insets(20, 150, 10, 10));
     TextField AmountOfGargoTo = new TextField();
-    AmountOfGargoTo.setPromptText("Amount of cargo to book");
+    AmountOfGargoTo.setPromptText("Amount Max: " + vessel.getAvailableCapacity() + "");
 
     grid.add(new Label("Amount of cargo to book:"), 0, 0);
     grid.add(AmountOfGargoTo, 1, 0);

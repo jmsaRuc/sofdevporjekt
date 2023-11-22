@@ -1,3 +1,13 @@
+/*
+ * This is the Controller class for the project.
+ * It is used to control the GUI and the database.
+ * 
+ * Its it is inspired from the following article: 
+ * https://edencoding.com/connect-javafx-with-sqlite/
+ * 
+ */
+
+
 package portfolio.projekt2.controllers;
 
 import java.util.Optional;
@@ -30,12 +40,12 @@ public class Controller {
   public String[] savedSSearcParams = new String[4];
   public int savedISearchParams;
 
-  public void initialize() {
+  public void initialize() {//initialize the table, and bind the book button to the table
     ridColumn.setCellValueFactory(new PropertyValueFactory<>("rid"));
     startDidColumn.setCellValueFactory(cellData -> {
       Route route = cellData.getValue();
       Optional<Date> dateOptional = DateDAO.getDate(route.getStartDid());
-
+      
       if (dateOptional.isPresent()) {
         Date date = dateOptional.get();
         return new SimpleStringProperty(date.getDateV());
@@ -99,12 +109,12 @@ public class Controller {
       );
   }
 
-  public void handleExitButtonClicked(ActionEvent event) {
+  public void handleExitButtonClicked(ActionEvent event) {//exit the program
     Platform.exit();
     event.consume();
   }
 
-  public void Search(ActionEvent event) {
+  public void Search(ActionEvent event) {//search for a route
     SearchFunctions searchFunctions = new SearchFunctions();
     Dialog<String> dialog = createSearchDialog();
     Optional<String> result = dialog.showAndWait();
@@ -123,7 +133,7 @@ public class Controller {
     event.consume();
   }
 
-  public void book(ActionEvent event) {
+  public void book(ActionEvent event) {//book a route
     if (exampleTable.getSelectionModel().getSelectedItems().size() != 1) {
       System.err.println("Erro when booking: more than one row selected");
     } else {
@@ -190,9 +200,8 @@ public class Controller {
     event.consume();
   }
 
-  private Dialog<String> createSearchDialog() {
-    //create the dialog itself
-
+  private Dialog<String> createSearchDialog() {//create the search dialog
+  
     Dialog<String> dialog = new Dialog<>();
     dialog.setTitle("Search");
     dialog
@@ -277,12 +286,10 @@ public class Controller {
       return null;
     });
 
-    //if a record is supplied, use it to fill in the fields automatically
-
     return dialog;
   }
 
-  private Dialog<Vessel> createVesselDialog(Vessel vessel) {
+  private Dialog<Vessel> createVesselDialog(Vessel vessel) {//create the vessel dialog
     //create the dialog itself
     Dialog<Vessel> dialog = new Dialog<>();
     dialog.setTitle("Book Voyage");
@@ -327,7 +334,6 @@ public class Controller {
           )
       );
 
-    // make s
 
     //ensure only numeric input (integers) in age text field
     UnaryOperator<TextFormatter.Change> numberValidationFormatter = change -> {
@@ -370,7 +376,6 @@ public class Controller {
       return null;
     });
 
-    //if a record is supplied, use it to fill in the fields automatically
 
     return dialog;
   }

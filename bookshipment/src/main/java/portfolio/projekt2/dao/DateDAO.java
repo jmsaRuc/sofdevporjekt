@@ -1,3 +1,17 @@
+/*
+ * 
+ * As a lot of the DAOclasses are the same, but with diffrent values,
+ * there wil only in detb comments in the first one:
+ *  @CityDAO 
+ * 
+ * This is the DAO class for Date table in the database 
+ * 
+ * The DateDAO class is used to connect to the database and to get, 
+ * insert, update and delete dates from the database.
+ * 
+ */
+
+
 package portfolio.projekt2.dao;
 
 import java.sql.*;

@@ -1,3 +1,15 @@
+/*
+ * As most of the model class are the same but with diffrent values,
+ * there wil only in detb comments in the first one:
+ * @City
+ * 
+ * This is the model class for the Date table in the database.
+ * 
+ * The Date class is used to create Date objects, which are used in the,
+ * DateDAO class.
+ * 
+ */
+
 package portfolio.projekt2.models;
 
 import javafx.beans.property.ReadOnlyStringProperty;

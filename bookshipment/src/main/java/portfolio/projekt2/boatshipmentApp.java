@@ -1,3 +1,26 @@
+/*
+ * This is the main class of the application. It creates the interface and starts the application.
+ * 
+ * The whole aplication, and comments was made with the help of githup copilot
+ * 
+ * The arkitecture as well as well as the CRUDHelper, and Database comes from this articel: https://edencoding.com/connect-javafx-with-sqlite/
+ * 
+ * 
+ * 
+ */
+
+/////////////////////////////////////////
+
+
+/*
+ * The datebase should be populated, if its not, uncomment the 
+ * @load() 
+ * method in the start method, but remeber to uncoment it after the first run,
+ * or the database will be populated every time the application is started
+ * 
+ * 
+ */
+
 package portfolio.projekt2;
 
 import java.util.Comparator;
@@ -21,19 +44,14 @@ import portfolio.projekt2.dao.DateVesselWithCidDAO;
 import portfolio.projekt2.dao.RouteDAO;
 import portfolio.projekt2.dao.VesselCityWithDidDAO;
 import portfolio.projekt2.dao.VesselsDAO;
-import portfolio.projekt2.models.City;
-import portfolio.projekt2.models.CityDateWithVid;
-import portfolio.projekt2.models.CsvReader;
 import portfolio.projekt2.models.DataLoader;
-import portfolio.projekt2.models.Date;
-import portfolio.projekt2.models.DateVesselWithCid;
 import portfolio.projekt2.models.Route;
-import portfolio.projekt2.models.Vessel;
-import portfolio.projekt2.models.VesselCityWithDid;
 
 public class boatshipmentApp extends Application {
 
-  public static void main(String[] args) {
+  
+
+public static void main(String[] args) { // main method
     launch(args);
   }
 
@@ -133,14 +151,14 @@ public class boatshipmentApp extends Application {
   }
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(Stage primaryStage) throws Exception {//start method of the application 
     System.out.println("Starting Boatshipment");
-   // deletALl();
+   //deletALl();
     //System.out.println("Database cleared");
     //load();
-    //System.out.println("CSV loaded");
+    System.out.println("CSV loaded");
    // printAll();
-    if (Database.isOK()) {
+    if (Database.isOK()) {//check if the database is OK
       Controller controller = new Controller();
       primaryStage.setTitle("Boatshipment");
       primaryStage.setScene(new Scene(createInterface(controller), 1400, 500));
@@ -152,114 +170,14 @@ public class boatshipmentApp extends Application {
     }
   }
 
-  /*  
-    String startdate= "";
-
-    String endDate= "";
-
-    String startcity = "Yokohama";
-
-    String endcity = "";
-    SearchFunctions sc = new SearchFunctions();
-    for(Route route : sc.Search(startdate, endDate, startcity, endcity, 10)){
-      System.out.println(route);
-      System.out.print(" Startdate: "+ DateDAO.getDate(route.getStartDid()).get().getDateV()); 
-      System.out.print(" Enddate: "+ DateDAO.getDate(route.getEndDid()).get().getDateV());
-      System.out.print(" Startcity: "+ CityDAO.getCity(route.getStartCid()).get().getCityV());
-      System.out.print(" Endcity: "+ CityDAO.getCity(route.getEndCid()).get().getCityV());
-      System.out.println(" Vessel: "+ VesselsDAO.getVessel(route.getRVid()).get().getVesselName()+" "+ VesselsDAO.getVessel(route.getRVid()).get().getAvailableCapacity());
-    }
-      
-     */
-
-  /* 
-    Vessel vessel = VesselsDAO.getVessel(5).get();
-      System.out.println(vessel);
-      for(String s : vessel.getCityDateWithVidIndex().split(".")){
-        
-        System.out.println(CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)));
-         int temp = CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)).get().getDateWithVid();
-         int temp2 = CityDateWithVidDAO.getCityDateWithVid(Integer.parseInt(s)).get().getCityWithVid();
-         System.out.println(DateDAO.getDate(temp)); 
-         System.out.println(CityDAO.getCity(temp2));
-         
-       
-        
-
-      }
-      
-      */
-
-  //DataLoader dataLoader = new DataLoader();
-  //dataLoader.loadCSV();
-
-  //dataLoader.Updatepaires();
-
-  //DateDAO.getDates().forEach(System.out::println);
-  //CityDAO.getCitys().forEach(System.out::println);
-
-  //printAll();
-
-  //deletALl();
-  /*  
-    testVessels1(10);
-    deletAllVessesls();
-    testVessels2(10);
-    deletAllVessesls();
-     */
-  //testVessels2(10);
-  //testDates2(10);
-  //testCitys2(10);
-  //testRouts2(10);
-  /* 
-    testDates1(10);
-    deleteAllDates();
-    testDates2(10);
-    deleteAllDates();
-    */
-  /* 
-    testCitys1(10);
-    deleteAllCitys();
-    testCitys2(10);
-    deleteAllCitys();
-     */
-  /* 
-    testRouts1(10);
-    deleteAllRouts();
-    testRouts2(10);
-    deleteAllRouts();
-    */
-
-  /*
-    testCityDateWithVid1(10);
-    deleteAllCityDateWithVid();
-    testCityDateWithVid2(10);
-    deleteAllCityDateWithVid();
-    */
-  /* 
-    tetsVesselCityWithDid1(10);
-    deleteAllVesselCityWithDid();
-    tetsVesselCityWithDid2(10);
-    deleteAllVesselCityWithDid();
-    */
-
-  /*
-    testDateVesselWithCid1(10);
-    deleteAllDateVesselWithCid();
-    testDateVesselWithCid2(10);
-    deleteAllDateVesselWithCid();
-    */
-
-  //testCSVreader();
-
   
-  public static void load() {
+  public static void load() {//load the csv file
     DataLoader dataLoader = new DataLoader();
     dataLoader.loadCSV();
     dataLoader.Updatepaires();
   }
 
-  public static void deletALl() {
+  public static void deletALl() {//delete all the data from the database
     deleteAllDates();
     deleteAllCitys();
     deleteAllRouts();
@@ -269,7 +187,7 @@ public class boatshipmentApp extends Application {
     deletAllVessesls();
   }
 
-  public static void printAll() {
+  public static void printAll() {//print all the data from the database
     VesselsDAO.getVessels().forEach(System.out::println);
     DateDAO.getDates().forEach(System.out::println);
     CityDAO.getCitys().forEach(System.out::println);
@@ -279,106 +197,8 @@ public class boatshipmentApp extends Application {
     DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
   }
 
-  public static void testVessels1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Vessel vessel = new Vessel(
-        "titanic" + i,
-        100 + i,
-        200 + 2 + i,
-        100 + i,
-        "" + i,
-        n + i
-      );
-      VesselsDAO.insertVessel(
-        vessel.getVesselName(),
-        vessel.getUsedCapacity(),
-        vessel.getMaxCapacity(),
-        vessel.getAvailableCapacity(),
-        vessel.getCityDateWithVidIndex()
-      );
-      System.out.println(VesselsDAO.getVessel(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at testvessel1:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-      Vessel vessel2 = new Vessel(
-        "titanicUP" + i,
-        100 + i,
-        200 + 2 + i,
-        100 + i,
-        "" + i,
-        n
-      );
-      VesselsDAO.update(vessel2);
-      System.out.println(VesselsDAO.getVessel(n));
-      VesselsDAO.delete(n);
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at testvessel1:" + " " + i + " " + "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    VesselsDAO.getVessels().forEach(System.out::println);
-  }
-
-  public static void testVessels2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Vessel vessel = new Vessel(
-        "titanic" + i,
-        100 + i,
-        200 + 2 + i,
-        100 + i,
-        "" + i,
-        n + i
-      );
-      VesselsDAO.insertVessel(
-        vessel.getVesselName(),
-        vessel.getUsedCapacity(),
-        vessel.getMaxCapacity(),
-        vessel.getAvailableCapacity(),
-        vessel.getCityDateWithVidIndex()
-      );
-      System.out.println(VesselsDAO.getVessel(n + i));
-      if (!Database.isOK()) {
-        System.out.println("error at testvessel2:" + " " + i + " " + "insert");
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      Vessel vessel2 = new Vessel(
-        "titanicUP" + i,
-        100 + i,
-        200 + 2 + i,
-        100 + i,
-        "" + i,
-        n + i
-      );
-      VesselsDAO.update(vessel2);
-
-      System.out.println(VesselsDAO.getVessel(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println("error at testvessel2:" + " " + i + " " + "update");
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deletAllVessesls() {
+  
+  public static void deletAllVessesls() {//delete all the vessels from the database
     while (
       VesselsDAO.getVessels() == null || VesselsDAO.getVessels().size() > 0
     ) {
@@ -396,68 +216,8 @@ public class boatshipmentApp extends Application {
     VesselsDAO.getVessels().forEach(System.out::println);
   }
 
-  public static void testDates1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Date date = new Date("2021-01-01" + " " + i, "" + i, n + i);
-      DateDAO.insertDate(date.getDateV(), date.getCityVesselWithDidIndex());
-      System.out.println(DateDAO.getDate(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test date1:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-      Date date2 = new Date("2021-01-01" + "UP" + i, "" + i, n);
-      DateDAO.update(date2);
-      System.out.println(DateDAO.getDate(n));
-      DateDAO.delete(n);
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test date :" + " " + i + " " + "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    DateDAO.getDates().forEach(System.out::println);
-  }
 
-  public static void testDates2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Date date = new Date("2021-01-01" + " " + i, "" + i, n + i);
-      DateDAO.insertDate(date.getDateV(), date.getCityVesselWithDidIndex());
-      System.out.println(DateDAO.getDate(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test date2:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      Date date2 = new Date("2021-01-01" + "UP" + i, "" + i, n + i);
-      DateDAO.update(date2);
-
-      System.out.println(DateDAO.getDate(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println("error at test date2:" + " " + i + " " + "update");
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllDates() {
+  public static void deleteAllDates() {//delete all the dates from the database
     while (DateDAO.getDates() == null || DateDAO.getDates().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test vdate delete all:");
@@ -471,68 +231,7 @@ public class boatshipmentApp extends Application {
     DateDAO.getDates().forEach(System.out::println);
   }
 
-  public static void testCitys1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      City city = new City("city" + i, "" + i, n + i);
-      CityDAO.insertCity(city.getCityV(), city.getVesselDateWithCidIndex());
-      System.out.println(CityDAO.getCity(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test city1:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-      City city2 = new City("cityUP" + i, "" + i, n);
-      CityDAO.update(city2);
-      System.out.println(CityDAO.getCity(n));
-      CityDAO.delete(n);
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test city1:" + " " + i + " " + "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    CityDAO.getCitys().forEach(System.out::println);
-  }
-
-  public static void testCitys2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      City city = new City("city" + i, "" + i, n + i);
-      CityDAO.insertCity(city.getCityV(), city.getVesselDateWithCidIndex());
-      System.out.println(CityDAO.getCity(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test city2:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      City city2 = new City("cityUP" + i, "" + i, n + i);
-      CityDAO.update(city2);
-
-      System.out.println(CityDAO.getCity(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println("error at test city2:" + " " + i + " " + "update");
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllCitys() {
+  public static void deleteAllCitys() {//delete all the citys from the database
     while (CityDAO.getCitys() == null || CityDAO.getCitys().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test city delete all:");
@@ -546,80 +245,7 @@ public class boatshipmentApp extends Application {
     CityDAO.getCitys().forEach(System.out::println);
   }
 
-  public static void testRouts1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Route route = new Route(20 + i, 3 + i, 3 + i, 4 + i, 3 + i, n + i);
-      RouteDAO.insertRoute(
-        route.getStartDid(),
-        route.getEndDid(),
-        route.getStartCid(),
-        route.getEndCid(),
-        route.getRVid()
-      );
-      System.out.println(RouteDAO.getRoute(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test reoute1:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-      Route route2 = new Route(2077 + i, 3 + i, 3 + i, 4 + i, 3 + i, n);
-      RouteDAO.update(route2);
-      System.out.println(RouteDAO.getRoute(n));
-      RouteDAO.delete(n);
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test reoute1:" + " " + i + " " + "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    RouteDAO.getRoutes().forEach(System.out::println);
-  }
-
-  public static void testRouts2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      Route route = new Route(20 + i, 3 + i, 3 + i, 4 + i, 3 + i, n + i);
-      RouteDAO.insertRoute(
-        route.getStartDid(),
-        route.getEndDid(),
-        route.getStartCid(),
-        route.getEndCid(),
-        route.getRVid()
-      );
-      System.out.println(RouteDAO.getRoute(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test route2:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      Route route2 = new Route(2077 + i, 3 + i, 3 + i, 4 + i, 3 + i, n + i);
-      RouteDAO.update(route2);
-
-      System.out.println(RouteDAO.getRoute(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println("error at test route 2:" + " " + i + " " + "update");
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllRouts() {
+  public static void deleteAllRouts() {//delete all the routes from the database
     while (RouteDAO.getRoutes() == null || RouteDAO.getRoutes().size() > 0) {
       if (!Database.isOK()) {
         System.out.println("error at test route delete all:");
@@ -632,108 +258,8 @@ public class boatshipmentApp extends Application {
     RouteDAO.getRoutes().forEach(System.out::println);
   }
 
-  // create testCityDateWithVid1 and testCityDateWithVid2 and deleteAllCityDateWithVid same as above
-  public static void testCityDateWithVid1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      CityDateWithVid cityDateWithVid = new CityDateWithVid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      CityDateWithVidDAO.instertCityDateWithVid(
-        cityDateWithVid.getCityWithVid(),
-        cityDateWithVid.getDateWithVid(),
-        cityDateWithVid.getVidIn()
-      );
-      System.out.println(CityDateWithVidDAO.getCityDateWithVid(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test CityDateWithVi:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-
-      CityDateWithVid cityDateWithVid2 = new CityDateWithVid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n
-      );
-
-      CityDateWithVidDAO.udpate(cityDateWithVid2);
-
-      System.out.println(CityDateWithVidDAO.getCityDateWithVid(n));
-
-      CityDateWithVidDAO.delete(n);
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test CityDateWithVid:" +
-          " " +
-          i +
-          " " +
-          "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    CityDateWithVidDAO.getCityDateWithVids().forEach(System.out::println);
-  }
-
-  public static void testCityDateWithVid2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-    for (int i = 0; i < amount; i++) {
-      CityDateWithVid cityDateWithVid = new CityDateWithVid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      CityDateWithVidDAO.instertCityDateWithVid(
-        cityDateWithVid.getCityWithVid(),
-        cityDateWithVid.getDateWithVid(),
-        cityDateWithVid.getVidIn()
-      );
-      System.out.println(CityDateWithVidDAO.getCityDateWithVid(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test CityDateWithVi:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      CityDateWithVid cityDateWithVid2 = new CityDateWithVid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      CityDateWithVidDAO.udpate(cityDateWithVid2);
-
-      System.out.println(CityDateWithVidDAO.getCityDateWithVid(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test CityDateWithVid:" + " " + i + " " + "after update"
-        );
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllCityDateWithVid() {
+  
+  public static void deleteAllCityDateWithVid() {//delete all the city date with vid from the database
     while (
       CityDateWithVidDAO.getCityDateWithVids() == null ||
       CityDateWithVidDAO.getCityDateWithVids().size() > 0
@@ -754,110 +280,7 @@ public class boatshipmentApp extends Application {
     CityDateWithVidDAO.getCityDateWithVids().forEach(System.out::println);
   }
 
-  // create tetsVesselCityWithDid1 and tetsVesselCityWithDid2 and deleteAllVesselCityWithDid same as above
-  public static void tetsVesselCityWithDid1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-
-    for (int i = 0; i < amount; i++) {
-      VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      VesselCityWithDidDAO.instertVesselCityWithDid(
-        vesselCityWithDid.getCityWithDid(),
-        vesselCityWithDid.getVesselWithDid(),
-        vesselCityWithDid.getDidIn()
-      );
-      System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test VesselCityWithDid:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-
-      VesselCityWithDid vesselCityWithDid2 = new VesselCityWithDid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n
-      );
-
-      VesselCityWithDidDAO.udpate(vesselCityWithDid2);
-
-      System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n));
-
-      VesselCityWithDidDAO.delete(n);
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test VesselCityWithDid:" +
-          " " +
-          i +
-          " " +
-          "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    VesselCityWithDidDAO.getVesselCityWithDids().forEach(System.out::println);
-  }
-
-  public static void tetsVesselCityWithDid2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-
-    for (int i = 0; i < amount; i++) {
-      VesselCityWithDid vesselCityWithDid = new VesselCityWithDid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      VesselCityWithDidDAO.instertVesselCityWithDid(
-        vesselCityWithDid.getCityWithDid(),
-        vesselCityWithDid.getVesselWithDid(),
-        vesselCityWithDid.getDidIn()
-      );
-      System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test VesselCityWithDid:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      VesselCityWithDid vesselCityWithDid2 = new VesselCityWithDid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      VesselCityWithDidDAO.udpate(vesselCityWithDid2);
-
-      System.out.println(VesselCityWithDidDAO.getVesselCityWithDid(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test VesselCityWithDid:" + " " + i + " " + "after update"
-        );
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllVesselCityWithDid() {
+  public static void deleteAllVesselCityWithDid() {//delete all the vessel city with did from the database
     while (
       VesselCityWithDidDAO.getVesselCityWithDids() == null ||
       VesselCityWithDidDAO.getVesselCityWithDids().size() > 0
@@ -878,111 +301,7 @@ public class boatshipmentApp extends Application {
     VesselCityWithDidDAO.getVesselCityWithDids().forEach(System.out::println);
   }
 
-  // create testDateVesselWithCid1 and testDateVesselWithCid2 and deleteAllDateVesselWithCid same as above
-
-  public static void testDateVesselWithCid1(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-
-    for (int i = 0; i < amount; i++) {
-      DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      DateVesselWithCidDAO.instertDateVesselWithCid(
-        dateVesselWithCid.getDateWithCid(),
-        dateVesselWithCid.getVesselWithCid(),
-        dateVesselWithCid.getCidIn()
-      );
-      System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test DateVesselWithCid:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-
-      DateVesselWithCid dateVesselWithCid2 = new DateVesselWithCid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n
-      );
-
-      DateVesselWithCidDAO.udpate(dateVesselWithCid2);
-
-      System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n));
-
-      DateVesselWithCidDAO.delete(n);
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test DateVesselWithCid:" +
-          " " +
-          i +
-          " " +
-          "after getand delet"
-        );
-        System.exit(1);
-      }
-    }
-    DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
-  }
-
-  public static void testDateVesselWithCid2(int amount) {
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    int n = 1;
-
-    for (int i = 0; i < amount; i++) {
-      DateVesselWithCid dateVesselWithCid = new DateVesselWithCid(
-        1 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      DateVesselWithCidDAO.instertDateVesselWithCid(
-        dateVesselWithCid.getDateWithCid(),
-        dateVesselWithCid.getVesselWithCid(),
-        dateVesselWithCid.getCidIn()
-      );
-      System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n + i));
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test DateVesselWithCid:" + " " + i + " " + "after inserted"
-        );
-        System.exit(1);
-      }
-    }
-    if (!Database.isOK()) {
-      System.exit(1);
-    }
-    for (int i = 0; i < amount; i++) {
-      DateVesselWithCid dateVesselWithCid2 = new DateVesselWithCid(
-        1 + 200 + i,
-        1 + i,
-        1 + i,
-        n + i
-      );
-      DateVesselWithCidDAO.udpate(dateVesselWithCid2);
-
-      System.out.println(DateVesselWithCidDAO.getDateVesselWithCid(n + i));
-
-      if (!Database.isOK()) {
-        System.out.println(
-          "error at test DateVesselWithCid:" + " " + i + " " + "after update"
-        );
-        System.exit(1);
-      }
-    }
-  }
-
-  public static void deleteAllDateVesselWithCid() {
+  public static void deleteAllDateVesselWithCid() {//delete all the date vessel with cid from the database
     while (
       DateVesselWithCidDAO.getDateVesselWithCids() == null ||
       DateVesselWithCidDAO.getDateVesselWithCids().size() > 0
@@ -1002,16 +321,4 @@ public class boatshipmentApp extends Application {
 
     DateVesselWithCidDAO.getDateVesselWithCids().forEach(System.out::println);
   }
-
-  public static void testCSVreader() {
-    String[][] routes = CsvReader.ReadRoutes();
-
-    for (int i = 0; i < routes.length; i++) {
-      for (int j = 0; j < routes[i].length; j++) {
-        System.out.print(routes[i][j] + " ");
-      }
-      System.out.println();
-    }
-  }
-  
 }

@@ -1,3 +1,12 @@
+/*
+ * This is the class for connecting to the Data base,
+ * and checking if the tables exist.
+ * 
+ * Is also based on code from the articel: https://edencoding.com/connect-javafx-with-sqlite/
+ * 
+ * 
+ */
+
 package portfolio.projekt2.dao;
 
 import java.sql.*;
@@ -8,11 +17,12 @@ import portfolio.projekt2.boatshipmentApp;
 
 public class Database {
 
+  // The location of the database file
   private static final String location =
     boatshipmentApp.class.getResource("database/boatshipmentDatabase.db")
       .toExternalForm();
 
-  private static final String requiredTable[] = new String[] {
+  private static final String requiredTable[] = new String[] {//the tables that are required to be in the database
     "Vessels",
     "Dates",
     "Citys",
@@ -22,7 +32,7 @@ public class Database {
     "DateVesselWithCids",
   };
 
-  public static boolean isOK() {
+  public static boolean isOK() {//this method is used to check if the database is ok
     if (!checkDrivers()) {
       return false;
     } //driver errors
@@ -35,7 +45,7 @@ public class Database {
     return checkTables(); //tables didn't exist
   }
 
-  private static boolean checkDrivers() {
+  private static boolean checkDrivers() {//this method is used to check if the drivers are ok
     try {
       Class.forName("org.sqlite.JDBC");
       DriverManager.registerDriver(new org.sqlite.JDBC());
@@ -51,7 +61,7 @@ public class Database {
     }
   }
 
-  private static boolean checkConnection() {
+  private static boolean checkConnection() {//this method is used to check if the connection to the database is ok
     try (Connection connection = connect()) {
       return connection != null;
     } catch (SQLException e) {
@@ -65,7 +75,7 @@ public class Database {
     }
   }
 
-  private static boolean checkTables() {
+  private static boolean checkTables() {//this method is used to check if the tables are ok
     int i;
     int n = 0;
     for (i = 0; i < requiredTable.length; i++) {
@@ -94,7 +104,7 @@ public class Database {
     return false;
   }
 
-  protected static Connection connect() {
+  protected static Connection connect() {//this method is used to connect to the database
     String dbPrefix = "jdbc:sqlite:";
     Connection connection;
     try {

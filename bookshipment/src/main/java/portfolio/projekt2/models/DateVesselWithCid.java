@@ -1,3 +1,15 @@
+/*
+ * As most of the model class are the same but with diffrent values,
+ * there wil only in detb comments in the first one:
+ * @City
+ * 
+ * This is the model class for the DateVesselWithCid table in the database.
+ * 
+ * The DateVesselWithCid class is used to create DateVesselWithCid objects, which are used in the,
+ * DateVesselWithCidDAO class.
+ * 
+ */
+
 package portfolio.projekt2.models;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;

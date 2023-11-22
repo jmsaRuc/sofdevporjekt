@@ -1,3 +1,14 @@
+/*
+ * This is the class resposibell for loading the CSV file into the database, 
+ * and for checking if the CSV file is in the correct format.
+ * 
+ * The reson for the the uncommented code, was for to fix and erro, with the program 
+ * not loading certin end dates and end citys but as this need a bigger, change in the program,
+ * the code that was part of the solution was commented out
+ * 
+ * 
+ */
+
 package portfolio.projekt2.models;
 
 import java.util.HashSet;
@@ -18,7 +29,9 @@ public class DataLoader {
 
   private final ObservableList<Route> routes;
 
+  
   public DataLoader() {
+    
     this.csvArray = getCsvArray();
     this.vesSpicific = getCsvSpicific(2);
     this.daSpicific = getCsvSpicific(0);
@@ -28,21 +41,21 @@ public class DataLoader {
     this.routes = RouteDAO.getRoutes();
   }
 
-  private static String[][] getCsvArray() {
+  private static String[][] getCsvArray() {//this is the method that reads the CSV file
     String[][] routes = CsvReader.ReadRoutes();
     return routes;
   }
 
-  private static HashSet<String> getCsvSpicific(int n) {
+  private static HashSet<String> getCsvSpicific(int n) {//this is the method that reads a specific column from the CSV file
     HashSet<String> hashSet = CsvReader.ReadSpecific(n);
     return hashSet;
   }
 
-  private static int random_int(int Min, int Max) {
+  private static int random_int(int Min, int Max) {//this is the method that generates a random number
     return (int) (Math.random() * (Max - Min)) + Min;
   }
 
-  public void loadCSV() {
+  public void loadCSV() {//this is the method that loads the CSV file into the database
     
     checkCSV();
     int Couldamout = 5;
@@ -52,6 +65,7 @@ public class DataLoader {
     Integer vesselUsedCapacity = 0;
     Integer vesselAvailableCapacity = 0;
 
+    
     for (String ve : this.vesSpicific) {
       vesselMaxCapacityTemp = random_int(100, 1000);
       vesselMaxCapacity = vesselMaxCapacityTemp;
@@ -256,7 +270,8 @@ public class DataLoader {
     }
   }
 
-  public void Updatepaires() {
+  public void Updatepaires() {//this is the method that updates the the all the "A""B"With"C",
+  //tabels, and the index values fpr this; in each main entity class.
     boatshipmentApp.deleteAllDateVesselWithCid();
 
     boatshipmentApp.deleteAllVesselCityWithDid();

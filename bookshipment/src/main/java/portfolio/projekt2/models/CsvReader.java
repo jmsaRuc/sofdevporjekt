@@ -1,3 +1,13 @@
+/*
+ * This class is resposible for reading the csv file and returning a 2d array
+ * and a hashset based on a specific column.
+ * 
+ * Is based on the main file givin in the asinmet
+ * 
+ * 
+ */
+
+
 package portfolio.projekt2.models;
 
 import java.io.BufferedReader;
@@ -13,7 +23,7 @@ public class CsvReader {
     boatshipmentApp.class.getResource("/portfolio/projekt2/routes/routes1.csv")
       .getPath();
 
-  public static String[][] ReadRoutes(){
+  public static String[][] ReadRoutes(){//this method is used to read the routes from the csv file
     List <String> routesList = new ArrayList<String>();
 
     String delimiter = ",";
@@ -54,7 +64,8 @@ public class CsvReader {
     
   }
 
-  public static HashSet<String> ReadSpecific(int n){
+  public static HashSet<String> ReadSpecific(int n){//this method is used to read a specific column from the csv file,
+    //for example the "citys"
     HashSet<String> hashSet = new HashSet<String>();
     try{
       BufferedReader in = new BufferedReader(new FileReader(Location));

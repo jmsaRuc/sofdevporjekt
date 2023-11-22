@@ -1,3 +1,16 @@
+/*
+ * As most of the model class are the same but with diffrent values,
+ * there wil only in detb comments in the first one:
+ * @City
+ * 
+ * This is the model class for the VesselCityWithDid table in the database.
+ * 
+ * The VesselCityWithDid class is used to create VesselCityWithDid objects, which are used in the,
+ * VesselCityWithDidDAO class.
+ * 
+ */
+
+
 package portfolio.projekt2.models;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;

@@ -1,4 +1,14 @@
-//class for Rote, make it int same way as (City, Date, Vessel)
+/*
+ * As most of the model class are the same but with diffrent values,
+ * there wil only in detb comments in the first one:
+ * @City
+ * 
+ * This is the model class for the Route table in the database.
+ * 
+ * The Route class is used to create Route objects, which are used in the,
+ * RouteDAO class.
+ * 
+ */
 
 package portfolio.projekt2.models;
 

@@ -1,3 +1,16 @@
+/*
+ *  As most of the model class are the same but with diffrent values,
+ * there wil only in detb comments in the first one:
+ * @City
+ * 
+ * This is the model class for the CityDateWithVid table in the database.
+ * 
+ * The CityDateWithVid class is used to create CityDateWithVid objects, which are used in the,
+ * CityDateWithVidDAO class.
+ * 
+ */
+
+
 package portfolio.projekt2.models;
 
 import javafx.beans.property.ReadOnlyIntegerProperty;

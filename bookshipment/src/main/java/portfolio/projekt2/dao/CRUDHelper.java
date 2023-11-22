@@ -1,3 +1,12 @@
+/*
+ * CRUDHelper.java
+ * Author: Eden-Rump
+ * Purpose: Helper class for CRUD operation
+ * 
+ * I got this code from this articel: https://edencoding.com/connect-javafx-with-sqlite/
+ */
+
+
 package portfolio.projekt2.dao;
 
 import java.sql.*;
@@ -5,7 +14,7 @@ import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CRUDHelper {
+public class CRUDHelper {//
 
   public static Object read(
     String tableName,
@@ -15,6 +24,7 @@ public class CRUDHelper {
     int indexDataType,
     Object index
   ) {
+    // Build the query string
     StringBuilder queryBuilder = new StringBuilder("Select ");
     queryBuilder.append(fieldName);
     queryBuilder.append(" from ");
@@ -23,12 +33,17 @@ public class CRUDHelper {
     queryBuilder.append(indexFieldName);
     queryBuilder.append(" = ");
     queryBuilder.append(convertObjectToSQLField(index, indexDataType));
+    // Connect to the database
     try (Connection connection = Database.connect()) {
+      // Prepare the statement
       PreparedStatement statement = connection.prepareStatement(
         queryBuilder.toString()
       );
+      // Execute the query
       try (ResultSet rs = statement.executeQuery()) {
+        // Get the first result
         rs.next();
+        // Return the field
         switch (fieldDataType) {
           case Types.INTEGER:
             return rs.getInt(fieldName);
@@ -68,6 +83,7 @@ public class CRUDHelper {
     int indexDataType,
     Object index
   ) {
+    //this is the update method for the database 
     int number = Math.min(
       Math.min(columns.length, values.length),
       types.length
@@ -105,7 +121,8 @@ public class CRUDHelper {
     String[] columns,
     Object[] values,
     int[] types
-  ) {
+  ) { 
+    //this is the create method for the database 
     
     int number = Math.min(
       Math.min(columns.length, values.length),
@@ -162,6 +179,7 @@ public class CRUDHelper {
   }
 
   public static int delete(String tableName, int id, String idName) {
+    //this is the delete method for the database
     String sql = "DELETE FROM " + tableName + " WHERE "+ idName +" = ?";
     try (Connection conn = Database.connect()) {
       PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -185,6 +203,7 @@ public class CRUDHelper {
   }
 
   private static String convertObjectToSQLField(Object value, int type) {
+    //this is the method to convert the object to a sql field
     StringBuilder queryBuilder = new StringBuilder();
     switch (type) {
       case Types.VARCHAR:

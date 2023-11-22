@@ -1,3 +1,9 @@
+/*
+ * This is class resposibell for the search function
+ * 
+ * 
+ */
+
 package portfolio.projekt2.dao;
 
 import java.util.Optional;
@@ -28,35 +34,60 @@ public class SearchFunctions {
   }
 
   public Optional<City> searchForCity(String cityName) {
+    // Iterate through the list of cities
     for (City city : this.citys) {
+      // If the name of the city matches the one we are looking for
       if (city.getCityV().equals(cityName)) {
+        // Return the city
         return Optional.of(city);
       }
     }
+    // If we didn't find a match, return an empty Optional
     return Optional.empty();
   }
 
   public Optional<Date> searchForDate(String date) {
+    // loop through the dates list
     for (Date date1 : this.dates) {
+      // if the date is found return the date
       if (date1.getDateV().equals(date)) {
         return Optional.of(date1);
       }
     }
+    // if the date is not found return an empty optional
     return Optional.empty();
   }
 
   public ObservableList<Vessel> searchForVesssel_withAvailableCapacity(
     int amountOFcontainers
   ) {
+    // create an empty list to hold the result
     ObservableList<Vessel> resultV = FXCollections.observableArrayList();
+    // clear the list from any previous results
     resultV.clear();
+    // loop over all vessels in the list
     for (Vessel vessel : this.vessels) {
+      // check if the vessel has enough available capacity
       if (vessel.getAvailableCapacity() >= amountOFcontainers) {
+        // if yes, add it to the result list
         resultV.add(vessel);
       }
     }
+    // return the result
     return FXCollections.unmodifiableObservableList(resultV);
   }
+
+  /*
+   * This is the main search funtion of the program
+   * is uses the the difrent "A""B"with"C" to find the routes
+   * 
+   * this function only need 
+   * @amountOFcontainers 
+   * to work. 
+   * 
+   * It can search with any combinatin of the other parameters 
+   * 
+   */
 
   public ObservableList<Route> Search(
     String startDate,

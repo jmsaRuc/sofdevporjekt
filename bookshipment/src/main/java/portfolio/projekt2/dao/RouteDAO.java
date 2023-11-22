@@ -1,4 +1,13 @@
-//DAO for Route, data schema "TABLE Routes (rid integer PRIMARY KEY, startDid int NOT NULL, endDid int, startCid int, endCid int, rVid)int;", make it int same way as other DAOs (CityDAO, DateDAO, RouteDAO)
+/*
+ * As a lot of the DAOclasses are the same, but with diffrent values,
+ * there wil only in detb comments in the first one:
+ *  @CityDAO 
+ * 
+ * This is the DAO class for the Route table in the database
+ * 
+ * The RouteDAO class is used to connect to the database and to get,
+ * insert, update and delete routes from the database.
+ */
 
 package portfolio.projekt2.dao;
 

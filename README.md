@@ -1,7 +1,5 @@
 # bookshipment
 
-The progam is a simple CRUD application that allows you to add, edit, delete and view vessels in a database. The application is written in Java and uses JavaFX for the GUI. The database is SQLite.
-
 ## Description
 This is a simple CRUD application that allows you to add, edit, delete and view vessels in a database. The application is written in Java and uses JavaFX for the GUI. The database is SQLite.
 

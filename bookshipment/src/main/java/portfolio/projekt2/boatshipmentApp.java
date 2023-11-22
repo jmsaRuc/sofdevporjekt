@@ -156,7 +156,7 @@ public static void main(String[] args) { // main method
    //deletALl();
     //System.out.println("Database cleared");
     //load();
-    System.out.println("CSV loaded");
+    //System.out.println("CSV loaded");
    // printAll();
     if (Database.isOK()) {//check if the database is OK
       Controller controller = new Controller();
